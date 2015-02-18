@@ -32,5 +32,15 @@ namespace StackOverflow.Web.Controllers
             models.Add(model2);
             return View(models);
         }
+
+        public ActionResult Details(Guid id)
+        {
+            return View(new QuestionDetailsModel());
+        }
+
+        public ActionResult Ask()
+        {
+            return View(new AskQuestionModel());
+        }
     }
 }

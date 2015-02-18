@@ -4,6 +4,7 @@ namespace StackOverflow.Web.Models
 {
     public class AccountLoginModel
     {
+        [Required]
         [EmailAddress]
         public string Email { get; set; }
         [Required]
