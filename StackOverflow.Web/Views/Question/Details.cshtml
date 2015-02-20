@@ -1,4 +1,5 @@
-﻿@model StackOverflow.Web.Models.QuestionDetailsModel
+﻿@using StackOverflow.Web.Models
+@model StackOverflow.Web.Models.QuestionDetailsModel
 
 @{
     ViewBag.Title = "Details";
@@ -6,7 +7,7 @@
 
 <h2>Details</h2>
 
-<div>
+@*<div>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -50,8 +51,28 @@
         </dd>
 
     </dl>
-</div>
+</div>*@
 <p>
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+<div class="page-header">
+    <h1><small>@Html.DisplayFor(model => model.Title)</small>
+    </h1>
+</div>
+
+<div class="col-md-1">
+    <button type="button" class="btn btn-default btn-lg row">
+        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+    </button>
+    <div class="row"><h2>@Html.DisplayFor(model => model.Votes)</h2></div>
+    <button type="button" class="btn btn-default btn-lg row">
+        <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+    </button>
+</div>
+<div class="col-md-6">@Html.DisplayFor(model => model.Description)</div>
+<div class="well col-md-1">
+    <div class="row">@Html.ActionLink(Model.OwnerName, "Profile", "Account", new { id = Model.OwnerId }, null)</div>
+    <div class="row">@Html.DisplayFor(model => model.CreationDate)</div>
+</div>

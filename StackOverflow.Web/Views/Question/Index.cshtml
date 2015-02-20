@@ -9,7 +9,7 @@
 <p>
     @Html.ActionLink("Ask a question", "Ask")
 </p>
-<table class="table">
+@*<table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.OwnerName)
@@ -26,25 +26,39 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.ActionLink(item.OwnerName, "Profile", "Account",new {id = item.OwnerId}, null)
-        </td>
-        <td>
-            @Html.ActionLink(item.Title, "Details", new { id = item.QuestionId })
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Votes)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreationDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.QuestionId }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.QuestionId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.OwnerName, "Profile", "Account", new { id = item.OwnerId }, null)
+            </td>
+            <td>
+                @Html.ActionLink(item.Title, "Details", new { id = item.QuestionId })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Votes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreationDate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.QuestionId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.QuestionId })
+            </td>
+        </tr>
+    }
+</table>*@
 
-</table>
+<ul class="list-group">
+        @foreach (var item in Model)
+        {
+            <li class="list-group-item col-md-9 ">
+                <span class="badge">@Html.DisplayFor(modelItem => item.Votes)</span>
+                <div>
+                    @Html.ActionLink(item.Title, "Details", new { id = item.QuestionId })
+                    asked by @Html.ActionLink(item.OwnerName, "Profile", "Account", new { id = item.OwnerId }, null)
+                    on @Html.DisplayFor(modelItem => item.CreationDate)
+                </div>
+            </li>
+        }
+</ul>

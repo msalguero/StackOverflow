@@ -6,7 +6,10 @@
 
 <h2>Login</h2>
 
-
+@if (ViewBag.Message != "")
+{
+    <div class="alert alert-danger" role="alert">@ViewBag.Message</div>
+}
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
@@ -34,14 +37,13 @@
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Log In" class="btn btn-default"/>
                 @Html.ActionLink("Forgot password", "ForgotPassword")
+                @Html.ActionLink("Need an Account", "Register")
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

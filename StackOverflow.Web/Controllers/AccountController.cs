@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
+using AutoMapper;
 using StackOverflow.Domain.Entities;
 using StackOverflow.Web.Models;
 
@@ -10,6 +12,13 @@ namespace StackOverflow.Web.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IMappingEngine _mappingEngine;
+
+        public AccountController(IMappingEngine mappingEngine)
+        {
+            _mappingEngine = mappingEngine;
+        }
+
         public ActionResult Register()
         {
             return View(new AccountRegisterModel());
@@ -20,8 +29,7 @@ namespace StackOverflow.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                AutoMapper.Mapper.CreateMap<Account, AccountRegisterModel>().ReverseMap();
-                Account newAccount = AutoMapper.Mapper.Map<AccountRegisterModel, Account>(model);
+                Account newAccount = _mappingEngine.Map<AccountRegisterModel, Account>(model);
 
                 return RedirectToAction("Login");
             }
@@ -31,6 +39,26 @@ namespace StackOverflow.Web.Controllers
         public ActionResult Login()
         {
             return View(new AccountLoginModel());
+        }
+
+        [HttpPost]
+        public ActionResult Login(AccountLoginModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Account newAccount = _mappingEngine.Map<AccountLoginModel, Account>(model);
+                FormsAuthentication.SetAuthCookie(newAccount.Id.ToString(), false);
+
+                return RedirectToAction("Index", "Question");
+            }
+
+            return View(new AccountLoginModel());
+        }
+
+        public ActionResult LogOut()
+        {
+            FormsAuthentication.SignOut();
+            return RedirectToAction("Index", "Question");
         }
 
         public ActionResult ForgotPassword()
@@ -48,6 +76,11 @@ namespace StackOverflow.Web.Controllers
         public ActionResult Profile(Guid id)
         {
             return View(new AccountProfileModel());
+        }
+
+        public ActionResult ChangePassword()
+        {
+            return View(new ChangePasswordModel());
         }
     }
 }
