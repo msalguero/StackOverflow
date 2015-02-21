@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using AutoMapper;
+using StackOverflow.Data;
 using StackOverflow.Domain.Entities;
 using StackOverflow.Web.Models;
 
@@ -30,7 +31,9 @@ namespace StackOverflow.Web.Controllers
             if (ModelState.IsValid)
             {
                 Account newAccount = _mappingEngine.Map<AccountRegisterModel, Account>(model);
-
+                var context = new StackOverflowContext();
+                context.Accounts.Add(newAccount);
+                context.SaveChanges();
                 return RedirectToAction("Login");
             }
             return View(model);
@@ -46,12 +49,16 @@ namespace StackOverflow.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                Account newAccount = _mappingEngine.Map<AccountLoginModel, Account>(model);
-                FormsAuthentication.SetAuthCookie(newAccount.Id.ToString(), false);
+                var context = new StackOverflowContext();
+                Account account = context.Accounts.FirstOrDefault(x => x.Email == model.Email && x.Password == model.Password);
+                if (account != null)
+                {
+                    FormsAuthentication.SetAuthCookie(account.Id.ToString(), false);
 
-                return RedirectToAction("Index", "Question");
+                    return RedirectToAction("Index", "Question");
+                }  
             }
-
+            
             return View(new AccountLoginModel());
         }
 

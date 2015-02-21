@@ -51,6 +51,12 @@
     <Reference Include="AutoMapper.Net4">
       <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -197,6 +203,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\StackOverflow.Data\StackOverflow.Data.csproj">
+      <Project>{5B51EF12-DABD-4C79-BA01-EC4D47AB98C5}</Project>
+      <Name>StackOverflow.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\StackOverflow.Domain\StackOverflow.Domain.csproj">
       <Project>{F7EC035B-3295-426A-B913-8CDB5F2E8251}</Project>
       <Name>StackOverflow.Domain</Name>
