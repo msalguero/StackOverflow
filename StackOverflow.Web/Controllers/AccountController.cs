@@ -58,7 +58,7 @@ namespace StackOverflow.Web.Controllers
                     return RedirectToAction("Index", "Question");
                 }  
             }
-            
+            ViewBag.Message = "Email or Password invalid";
             return View(new AccountLoginModel());
         }
 
@@ -82,7 +82,15 @@ namespace StackOverflow.Web.Controllers
 
         public ActionResult Profile(Guid id)
         {
-            return View(new AccountProfileModel());
+            var context = new StackOverflowContext();
+            Account account = context.Accounts.FirstOrDefault(x => x.Id == id);
+            if (account != null)
+            {
+                var model = _mappingEngine.Map<Account, AccountProfileModel>(account);
+                return View(model);
+            }  
+            
+            return RedirectToAction("Index", "Question");
         }
 
         public ActionResult ChangePassword()

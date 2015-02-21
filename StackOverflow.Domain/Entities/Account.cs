@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace StackOverflow.Domain.Entities
 {
@@ -13,6 +15,7 @@ namespace StackOverflow.Domain.Entities
         public string Location { get; set; }
         public string Description { get; set; }
         public int Age { get; set; }
+        public ICollection<Question> Questions { get; set; }
 
         public Account()
         {
