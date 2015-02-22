@@ -14,6 +14,7 @@ namespace StackOverflow.Domain.Entities
         public DateTime CreationDate { get; set; }
         public DateTime ModificationDate { get; set; }
         public virtual ICollection<Answer> Answers { get; set; }
+        public bool IsAnswered { get; set; }
 
         public Question()
         {

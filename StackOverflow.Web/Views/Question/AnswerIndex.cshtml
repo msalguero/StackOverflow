@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    @if (TempData["QuestionOwnerId"].ToString() == Context.User.Identity.Name)
+                    @if (TempData["QuestionOwnerId"].ToString() == Context.User.Identity.Name && !((bool)TempData["isAnswered"]))
                     {
                         using (Html.BeginForm("SelectCorrectAnswer", "Question", item))
                         {

@@ -7,6 +7,7 @@ using System.Web.Security;
 using AutoMapper;
 using StackOverflow.Data;
 using StackOverflow.Domain.Entities;
+using StackOverflow.Domain.Services;
 using StackOverflow.Web.Models;
 
 namespace StackOverflow.Web.Controllers
@@ -77,6 +78,8 @@ namespace StackOverflow.Web.Controllers
         public ActionResult ForgotPassword(ForgotPasswordModel model)
         {
             @ViewBag.Message = "El correo fue enviado";
+            IEmailSender email = new EmailSender();
+            email.SendEmail(model.Email, "hola");
             return View(model);
         }
 
@@ -93,7 +96,7 @@ namespace StackOverflow.Web.Controllers
             return RedirectToAction("Index", "Question");
         }
 
-        public ActionResult ChangePassword()
+        public ActionResult ChangePassword(Guid id)
         {
             return View(new ChangePasswordModel());
         }

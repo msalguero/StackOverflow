@@ -53,10 +53,14 @@
         @foreach (var item in Model)
         {
             <li class="list-group-item col-md-9 ">
-                <span class="badge">@Html.DisplayFor(modelItem => item.Votes)</span>
+                <span class="badge badge-info">Answers: @Html.DisplayFor(modelItem => item.AnswersCount)</span>
+                <span class="badge badge-warning">Votes: @Html.DisplayFor(modelItem => item.Votes)</span>
+                @if (item.IsAnswered)
+                {
+                    <span class="badge badge-success">Answered</span>}
                 <div>
-                    @Html.ActionLink(item.Title, "Details", new { id = item.QuestionId })
-                    asked by @Html.ActionLink(item.OwnerName, "Profile", "Account", new { id = item.OwnerId }, null)
+                    @Html.ActionLink(item.Title, "Details", new {id = item.QuestionId})
+                    asked by @Html.ActionLink(item.OwnerName, "Profile", "Account", new {id = item.OwnerId}, null)
                     on @Html.DisplayFor(modelItem => item.CreationDate)
                 </div>
             </li>

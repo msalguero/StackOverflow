@@ -43,6 +43,7 @@ namespace StackOverflow.Web.Controllers
             Question question = context.Questions.FirstOrDefault(x => x.Id == id);
             if (question == null)
                 return RedirectToAction("Index");
+            question.Answers = question.Answers.OrderByDescending(c => c.Correct).ToList();
             QuestionDetailsModel questionModel = Mapper.Map<Question,QuestionDetailsModel>(question);
            
             return View(questionModel);
@@ -147,6 +148,7 @@ namespace StackOverflow.Web.Controllers
             answer.Question = question;
             answer.Owner = account;
             answer.Correct = true;
+            question.IsAnswered = true;
             context.Entry(answer).State = EntityState.Modified;
             context.SaveChanges();
 

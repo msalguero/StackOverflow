@@ -71,6 +71,10 @@
     <Compile Include="Migrations\201502220034466_AddAnswer2.Designer.cs">
       <DependentUpon>201502220034466_AddAnswer2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201502221809054_AddingIsAnsweredBool.cs" />
+    <Compile Include="Migrations\201502221809054_AddingIsAnsweredBool.Designer.cs">
+      <DependentUpon>201502221809054_AddingIsAnsweredBool.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="StackOverflowContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,6 +107,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201502220034466_AddAnswer2.resx">
       <DependentUpon>201502220034466_AddAnswer2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502221809054_AddingIsAnsweredBool.resx">
+      <DependentUpon>201502221809054_AddingIsAnsweredBool.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
