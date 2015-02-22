@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -83,6 +84,23 @@ namespace StackOverflow.Web.Controllers
 
         public ActionResult VoteQuestion()
         {
+            Guid idQuestion = Guid.Parse(TempData["id"].ToString());
+            return RedirectToAction("Details", new { id = idQuestion });
+        }
+
+        [HttpPost]
+        public ActionResult SelectCorrectAnswer(AnswerModel itemModel)
+        {
+            Answer answer = Mapper.Map<AnswerModel, Answer>(itemModel);
+            var context = new StackOverflowContext();
+            var question = context.Questions.FirstOrDefault(q => q.Id == itemModel.QuestionId);
+            var account = context.Accounts.FirstOrDefault(a => a.Id == itemModel.OwnerId);
+            answer.Question = question;
+            answer.Owner = account;
+            answer.Correct = true;
+            context.Entry(answer).State = EntityState.Modified;
+            context.SaveChanges();
+
             Guid idQuestion = Guid.Parse(TempData["id"].ToString());
             return RedirectToAction("Details", new { id = idQuestion });
         }

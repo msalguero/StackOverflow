@@ -12,7 +12,7 @@ namespace StackOverflow.Web.Models
         public DateTime CreationDate { get; set; }
         public string Description { get; set; }
         public Guid OwnerId { get; set; }
-        public Guid Id { get; private set; }
+        public Guid Id { get;  set; }
         public bool Correct { get; set; }
         public Guid QuestionId { get; set; }
     }

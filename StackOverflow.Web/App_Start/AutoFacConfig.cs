@@ -44,6 +44,7 @@ namespace StackOverflow.Web
             Mapper.CreateMap<Answer, AnswerModel>()
                 .ForMember(dest => dest.OwnerName, opt => opt.MapFrom(src => src.Owner.Name))
                 .ForMember(dest => dest.OwnerId, opt => opt.MapFrom(src => src.Owner.Id))
+                .ForMember(dest => dest.QuestionId, opt => opt.MapFrom(src => src.Question.Id))
                 .ReverseMap();
         }
     }

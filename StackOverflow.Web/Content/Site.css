@@ -22,3 +22,9 @@ select,
 textarea {
     max-width: 280px;
 }
+
+span.glyphicon-ok-sign {
+    font-size: 3.2em;
+    padding-top: 50px;
+    align-content: center;
+}

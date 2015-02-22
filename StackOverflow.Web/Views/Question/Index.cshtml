@@ -26,24 +26,24 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var itemModel in Model)
     {
         <tr>
             <td>
-                @Html.ActionLink(item.OwnerName, "Profile", "Account", new { id = item.OwnerId }, null)
+                @Html.ActionLink(itemModel.OwnerName, "Profile", "Account", new { id = itemModel.OwnerId }, null)
             </td>
             <td>
-                @Html.ActionLink(item.Title, "Details", new { id = item.QuestionId })
+                @Html.ActionLink(itemModel.Title, "Details", new { id = itemModel.QuestionId })
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Votes)
+                @Html.DisplayFor(modelItem => itemModel.Votes)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CreationDate)
+                @Html.DisplayFor(modelItem => itemModel.CreationDate)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.QuestionId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.QuestionId })
+                @Html.ActionLink("Edit", "Edit", new { id = itemModel.QuestionId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = itemModel.QuestionId })
             </td>
         </tr>
     }

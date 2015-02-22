@@ -7,6 +7,10 @@
         @foreach (var item in Model)
         {
             <li class="list-group-item col-md-9 ">
+                @if (item.Correct)
+                {
+                    <span class="glyphicon glyphicon-ok-sign col-sm-1 " aria-hidden="true"></span>
+                }
                 <div class="col-md-1">
                     <button type="button" class="btn btn-default btn-lg row">
                         <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
@@ -21,9 +25,20 @@
                 <div>
                     <div class="col-md-6">@Html.DisplayFor(modelItem => item.Description)</div>
                     <div class="col-md-2">
-                        answered by @Html.ActionLink(item.OwnerName, "Profile", "Account", new { id = item.OwnerId }, null)
+                        answered by @Html.ActionLink(item.OwnerName, "Profile", "Account", new {id = item.OwnerId}, null)
                         on @Html.DisplayFor(modelItem => item.CreationDate)
                     </div>
+                </div>
+                <div class="row">
+                    @using (Html.BeginForm("SelectCorrectAnswer", "Question", item))
+                    {
+                        <div class="form-group">
+                            <div>
+                                <input type="submit" value="Set as correct" class="btn btn-success" />
+                            </div>
+                        </div>
+                    }
+
                 </div>
             </li>
         }
