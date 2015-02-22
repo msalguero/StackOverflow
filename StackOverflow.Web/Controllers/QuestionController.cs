@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -81,9 +83,56 @@ namespace StackOverflow.Web.Controllers
             return RedirectToAction("Details", new{id = question.Id});
             //return RedirectToAction("Details", new {id = model.QuestionId});
         }
-
-        public ActionResult VoteQuestion()
+        [HttpPost]
+        public ActionResult VoteQuestionUp(QuestionDetailsModel item)
         {
+            item.Votes += 1;
+            return RedirectToAction("VoteQuestion", item);
+        }
+
+        [HttpPost]
+        public ActionResult VoteQuestionDown(QuestionDetailsModel item)
+        {
+            item.Votes += -1;
+            return RedirectToAction("VoteQuestion", item);
+        }
+        public ActionResult VoteQuestion(QuestionDetailsModel item)
+        {
+            var context = new StackOverflowContext();
+            Question question = Mapper.Map<QuestionDetailsModel, Question>(item);
+            var account = context.Accounts.FirstOrDefault(a => a.Id == item.OwnerId);
+            question.Owner = account;
+            question.ModificationDate = DateTime.Now;
+            context.Entry(question).State = EntityState.Modified;
+            context.SaveChanges();
+            Guid idQuestion = Guid.Parse(TempData["id"].ToString());
+            return RedirectToAction("Details", new { id = idQuestion });
+        }
+        [HttpPost]
+        public ActionResult VoteAnswerUp(AnswerModel item)
+        {
+            item.Votes += 1;
+            return RedirectToAction("VoteAnswer", item);
+        }
+
+        [HttpPost]
+        public ActionResult VoteAnswerDown(AnswerModel item)
+        {
+            item.Votes += -1;
+            return RedirectToAction("VoteAnswer", item);
+        }
+
+        public ActionResult VoteAnswer(AnswerModel itemModel)
+        {
+            Answer answer = Mapper.Map<AnswerModel, Answer>(itemModel);
+            var context = new StackOverflowContext();
+            var question = context.Questions.FirstOrDefault(q => q.Id == itemModel.QuestionId);
+            var account = context.Accounts.FirstOrDefault(a => a.Id == itemModel.OwnerId);
+            answer.Question = question;
+            answer.Owner = account;
+            context.Entry(answer).State = EntityState.Modified;
+            context.SaveChanges();
+
             Guid idQuestion = Guid.Parse(TempData["id"].ToString());
             return RedirectToAction("Details", new { id = idQuestion });
         }
