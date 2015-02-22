@@ -14,5 +14,6 @@ namespace StackOverflow.Web.Models
         public Guid OwnerId { get; set; }
         public Guid Id { get; private set; }
         public bool Correct { get; set; }
+        public Guid QuestionId { get; set; }
     }
 }

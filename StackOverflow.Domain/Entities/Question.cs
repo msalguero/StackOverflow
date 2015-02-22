@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace StackOverflow.Domain.Entities
 {
@@ -11,6 +13,7 @@ namespace StackOverflow.Domain.Entities
         public virtual Account Owner { get; set; }
         public DateTime CreationDate { get; set; }
         public DateTime ModificationDate { get; set; }
+        public virtual ICollection<Answer> Answers { get; set; }
 
         public Question()
         {

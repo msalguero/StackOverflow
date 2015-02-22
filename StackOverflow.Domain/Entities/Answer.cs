@@ -7,7 +7,8 @@ namespace StackOverflow.Domain.Entities
         public Guid Id { get; private set; }
         public int Votes { get; set; }
         public string Description { get; set; }
-        public Account Owner { get; set; }
+        public virtual Account Owner { get; set; }
+        public Question Question { get; set; }
         public DateTime CreationDate { get; set; }
         public bool Correct { get; set; }
 

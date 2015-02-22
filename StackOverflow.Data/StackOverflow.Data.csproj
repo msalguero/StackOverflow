@@ -63,6 +63,14 @@
     <Compile Include="Migrations\201502211554153_VirtualAccount.Designer.cs">
       <DependentUpon>201502211554153_VirtualAccount.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201502211640105_AddAnswer.cs" />
+    <Compile Include="Migrations\201502211640105_AddAnswer.Designer.cs">
+      <DependentUpon>201502211640105_AddAnswer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201502220034466_AddAnswer2.cs" />
+    <Compile Include="Migrations\201502220034466_AddAnswer2.Designer.cs">
+      <DependentUpon>201502220034466_AddAnswer2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="StackOverflowContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,6 +97,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201502211554153_VirtualAccount.resx">
       <DependentUpon>201502211554153_VirtualAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502211640105_AddAnswer.resx">
+      <DependentUpon>201502211640105_AddAnswer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502220034466_AddAnswer2.resx">
+      <DependentUpon>201502220034466_AddAnswer2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

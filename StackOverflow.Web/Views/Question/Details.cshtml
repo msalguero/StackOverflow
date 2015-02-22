@@ -3,7 +3,9 @@
 
 @{
     ViewBag.Title = "Details";
-}
+    ViewBag.CurrentQuestionId = Model.Id;
+    TempData["id"] = Model.Id;
+    }
 
 <h2>Details</h2>
 
@@ -62,17 +64,24 @@
     </h1>
 </div>
 
-<div class="col-md-1">
-    <button type="button" class="btn btn-default btn-lg row">
-        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-    </button>
-    <div class="row"><h2>@Html.DisplayFor(model => model.Votes)</h2></div>
-    <button type="button" class="btn btn-default btn-lg row">
-        <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-    </button>
+<div class="row">
+    <div class="col-md-1">
+        <button type="button" class="btn btn-default btn-lg row">
+            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+        </button>
+        <div class="row">
+            <h2>@Html.DisplayFor(model => model.Votes)</h2>
+        </div>
+        <button type="button" class="btn btn-default btn-lg row">
+            <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+        </button>
+    </div>
+    <div class="col-md-6">@Html.DisplayFor(model => model.Description)</div>
+    <div class="well col-md-1">
+        <div class="row">@Html.ActionLink(Model.OwnerName, "Profile", "Account", new {id = Model.OwnerId}, null)</div>
+        <div class="row">@Html.DisplayFor(model => model.CreationDate)</div>
+    </div>
 </div>
-<div class="col-md-6">@Html.DisplayFor(model => model.Description)</div>
-<div class="well col-md-1">
-    <div class="row">@Html.ActionLink(Model.OwnerName, "Profile", "Account", new { id = Model.OwnerId }, null)</div>
-    <div class="row">@Html.DisplayFor(model => model.CreationDate)</div>
+<div class="row">
+    @{ Html.RenderPartial("AnswerIndex", Model.Answers);}
 </div>

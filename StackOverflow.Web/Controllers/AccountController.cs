@@ -56,7 +56,7 @@ namespace StackOverflow.Web.Controllers
                     FormsAuthentication.SetAuthCookie(account.Id.ToString(), false);
 
                     return RedirectToAction("Index", "Question");
-                }  
+                }
             }
             ViewBag.Message = "Email or Password invalid";
             return View(new AccountLoginModel());

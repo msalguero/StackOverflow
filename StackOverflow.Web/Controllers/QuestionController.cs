@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using System.Web.Security;
 using AutoMapper;
 using Microsoft.Ajax.Utilities;
@@ -24,7 +25,7 @@ namespace StackOverflow.Web.Controllers
             var query = from q in context.Questions
                         orderby q.CreationDate
                         select q;
-
+         
             foreach (var item in query)
             {
                 var model = Mapper.Map<Question, QuestionListModel>(item);
@@ -43,10 +44,47 @@ namespace StackOverflow.Web.Controllers
            
             return View(questionModel);
         }
+        //[AllowAnonymous]
+        //public PartialViewResult AnswerIndex(ICollection<AnswerModel> models)
+        //{
+        //    return PartialView("AnswerIndex", models);
+        //}
 
         public ActionResult Ask()
         {
             return View(new AskQuestionModel());
+        }
+
+        [HttpPost]
+        public ActionResult CreateAnswer(string description)
+        {
+            var context = new StackOverflowContext();
+            Guid idQuestion = Guid.Parse( TempData["id"].ToString());
+            var question = context.Questions.FirstOrDefault(q => q.Id == idQuestion);
+            HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];         
+            FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
+            Guid creatorId = Guid.Parse(ticket.Name);
+            var account = context.Accounts.FirstOrDefault(a => a.Id == creatorId);
+            if (account == null || question == null)
+            {
+                return RedirectToAction("Index");
+            }
+            var answer = new Answer
+            {
+                Description = description, CreationDate = DateTime.Now,
+                Owner = account, Question = question
+            };
+
+            context.Answers.Add(answer);
+            context.SaveChanges();
+            return RedirectToAction("Details", new{id = question.Id});
+            //return RedirectToAction("Details", new {id = model.QuestionId});
+        }
+
+        public ActionResult VoteQuestion()
+        {
+            Guid idQuestion = Guid.Parse(TempData["id"].ToString());
+            return RedirectToAction("Details", new { id = idQuestion });
         }
 
         [HttpPost]
@@ -56,6 +94,7 @@ namespace StackOverflow.Web.Controllers
             {
                 var context = new StackOverflowContext();
                 Question question = Mapper.Map<AskQuestionModel, Question>(model);
+                
                 HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
                 if (authCookie != null)
                 {
