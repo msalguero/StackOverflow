@@ -14,5 +14,6 @@ namespace StackOverflow.Web.Models
         [Required]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
+        public Guid Id { get; set; }
     }
 }
