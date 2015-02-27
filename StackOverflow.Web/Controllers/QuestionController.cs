@@ -127,10 +127,14 @@ namespace StackOverflow.Web.Controllers
         {
             Answer answer = Mapper.Map<AnswerModel, Answer>(itemModel);
             var context = new StackOverflowContext();
+           
             var question = context.Questions.FirstOrDefault(q => q.Id == itemModel.QuestionId);
             var account = context.Accounts.FirstOrDefault(a => a.Id == itemModel.OwnerId);
             answer.Question = question;
             answer.Owner = account;
+            
+            Guid voterId = Guid.Parse(HttpContext.User.Identity.Name);
+            
             context.Entry(answer).State = EntityState.Modified;
             context.SaveChanges();
 

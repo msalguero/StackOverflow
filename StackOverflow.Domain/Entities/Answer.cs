@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace StackOverflow.Domain.Entities
 {
@@ -11,6 +12,7 @@ namespace StackOverflow.Domain.Entities
         public Question Question { get; set; }
         public DateTime CreationDate { get; set; }
         public bool Correct { get; set; }
+        public virtual ICollection<Guid> Voters { get; set; }
 
         public Answer()
         {

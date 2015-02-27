@@ -30,7 +30,7 @@ namespace StackOverflow.Web.Controllers
         [HttpPost]
         public ActionResult Register(AccountRegisterModel model)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && model.ConfirmPassword == model.Password)
             {
                 Account newAccount = _mappingEngine.Map<AccountRegisterModel, Account>(model);
                 var context = new StackOverflowContext();
@@ -38,6 +38,8 @@ namespace StackOverflow.Web.Controllers
                 context.SaveChanges();
                 return RedirectToAction("Login");
             }
+            model.Password = "";
+            model.ConfirmPassword = "";
             return View(model);
         }
 
