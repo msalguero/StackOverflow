@@ -25,6 +25,7 @@ namespace StackOverflow.Data
         public static string Get()
         {
             var environment = ConfigurationManager.AppSettings["Environment"];
+
             return String.Format("name = {0}", environment);
         }
     }

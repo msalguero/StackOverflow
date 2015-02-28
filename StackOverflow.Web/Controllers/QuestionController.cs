@@ -25,15 +25,20 @@ namespace StackOverflow.Web.Controllers
         {
             List<QuestionListModel> models = new List<QuestionListModel>();
             var context = new StackOverflowContext();
-            var query = from q in context.Questions
-                        orderby q.CreationDate
-                        select q;
+            //var query = from q in context.Questions
+            //            orderby q.CreationDate
+            //            select q;
          
-            foreach (var item in query)
+            //foreach (var item in query)
+            //{
+            //    var model = Mapper.Map<Question, QuestionListModel>(item);
+            //    models.Add(model);
+            //} 
+            foreach (var item in context.Questions)
             {
                 var model = Mapper.Map<Question, QuestionListModel>(item);
                 models.Add(model);
-            } 
+            }
             return View(models);
         }
         [AllowAnonymous]
