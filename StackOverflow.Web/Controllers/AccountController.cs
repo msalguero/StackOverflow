@@ -16,10 +16,12 @@ namespace StackOverflow.Web.Controllers
     public class AccountController : Controller
     {
         private readonly IMappingEngine _mappingEngine;
+        private readonly IUnitOfWork _unitOfWork;
 
         public AccountController(IMappingEngine mappingEngine)
         {
             _mappingEngine = mappingEngine;
+            _unitOfWork = new UnitOfWork();
         }
 
         public ActionResult Register()
@@ -33,9 +35,8 @@ namespace StackOverflow.Web.Controllers
             if (ModelState.IsValid && model.ConfirmPassword == model.Password)
             {
                 Account newAccount = _mappingEngine.Map<AccountRegisterModel, Account>(model);
-                var context = new StackOverflowContext();
-                context.Accounts.Add(newAccount);
-                context.SaveChanges();
+                _unitOfWork.AccountRepository.Add(newAccount);
+                _unitOfWork.Commit();
                 return RedirectToAction("Login");
             }
             model.Password = "";
@@ -53,8 +54,7 @@ namespace StackOverflow.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var context = new StackOverflowContext();
-                Account account = context.Accounts.FirstOrDefault(x => x.Email == model.Email && x.Password == model.Password);
+                Account account = _unitOfWork.AccountRepository.GetWithFilter(x => x.Email == model.Email && x.Password == model.Password);
                 if (account != null)
                 {
                     FormsAuthentication.SetAuthCookie(account.Id.ToString(), false);
@@ -81,8 +81,7 @@ namespace StackOverflow.Web.Controllers
         public ActionResult ForgotPassword(ForgotPasswordModel model)
         {
             @ViewBag.Message = "El correo fue enviado";
-            var context = new StackOverflowContext();
-            Account account = context.Accounts.FirstOrDefault(x => x.Email == model.Email);
+            Account account = _unitOfWork.AccountRepository.GetWithFilter(x => x.Email == model.Email);
             if (account == null)
                 return View(new ForgotPasswordModel());
             IEmailSender email = new EmailSender();
@@ -93,12 +92,11 @@ namespace StackOverflow.Web.Controllers
 
         public ActionResult Profile(Guid id)
         {
-            var context = new StackOverflowContext();
-            Account account = context.Accounts.FirstOrDefault(x => x.Id == id);
+            Account account = _unitOfWork.AccountRepository.GetById(id);
             if (account != null)
             {
-                context.Entry(account).Collection(p => p.Questions).Load();
-                context.Entry(account).Collection(p => p.Answers).Load();
+                _unitOfWork.AccountRepository.Load(account, "Questions");
+                _unitOfWork.AccountRepository.Load(account, "Answers");
                 var model = _mappingEngine.Map<Account, AccountProfileModel>(account);
                 
                 return View(model);
@@ -116,13 +114,12 @@ namespace StackOverflow.Web.Controllers
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordModel model)
         {
-            var context = new StackOverflowContext();
-            Account account = context.Accounts.FirstOrDefault(x => x.Id == model.Id);
+            Account account = _unitOfWork.AccountRepository.GetById(model.Id);
             if (model.Password == model.ConfirmPassword && account != null)
             {
                 account.Password = model.Password;
-                context.Entry(account).State = EntityState.Modified;
-                context.SaveChanges();
+                _unitOfWork.AccountRepository.Update(account);
+                _unitOfWork.Commit();
             }
                 
             return View(new ChangePasswordModel());

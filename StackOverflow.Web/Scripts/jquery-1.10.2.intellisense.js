@@ -765,13 +765,13 @@ intellisense.annotate(jQuery.fn, {
   },
   'after': function() {
     /// <signature>
-    ///   <summary>Insert content, specified by the parameter, after each element in the set of matched elements.</summary>
+    ///   <summary>Add content, specified by the parameter, after each element in the set of matched elements.</summary>
     ///   <param name="content" type="jQuery">HTML string, DOM element, or jQuery object to insert after each element in the set of matched elements.</param>
     ///   <param name="content" type="jQuery">One or more additional DOM elements, arrays of elements, HTML strings, or jQuery objects to insert after each element in the set of matched elements.</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
-    ///   <summary>Insert content, specified by the parameter, after each element in the set of matched elements.</summary>
+    ///   <summary>Add content, specified by the parameter, after each element in the set of matched elements.</summary>
     ///   <param name="function(index)" type="Function">A function that returns an HTML string, DOM element(s), or jQuery object to insert after each element in the set of matched elements. Receives the index position of the element in the set as an argument. Within the function, this refers to the current element in the set.</param>
     ///   <returns type="jQuery" />
     /// </signature>
@@ -846,20 +846,20 @@ intellisense.annotate(jQuery.fn, {
   },
   'append': function() {
     /// <signature>
-    ///   <summary>Insert content, specified by the parameter, to the end of each element in the set of matched elements.</summary>
+    ///   <summary>Add content, specified by the parameter, to the end of each element in the set of matched elements.</summary>
     ///   <param name="content" type="jQuery">DOM element, HTML string, or jQuery object to insert at the end of each element in the set of matched elements.</param>
     ///   <param name="content" type="jQuery">One or more additional DOM elements, arrays of elements, HTML strings, or jQuery objects to insert at the end of each element in the set of matched elements.</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
-    ///   <summary>Insert content, specified by the parameter, to the end of each element in the set of matched elements.</summary>
+    ///   <summary>Add content, specified by the parameter, to the end of each element in the set of matched elements.</summary>
     ///   <param name="function(index, html)" type="Function">A function that returns an HTML string, DOM element(s), or jQuery object to insert at the end of each element in the set of matched elements. Receives the index position of the element in the set and the old HTML value of the element as arguments. Within the function, this refers to the current element in the set.</param>
     ///   <returns type="jQuery" />
     /// </signature>
   },
   'appendTo': function() {
     /// <signature>
-    ///   <summary>Insert every element in the set of matched elements to the end of the target.</summary>
+    ///   <summary>Add every element in the set of matched elements to the end of the target.</summary>
     ///   <param name="target" type="jQuery">A selector, element, HTML string, or jQuery object; the matched set of elements will be inserted at the end of the element(s) specified by this parameter.</param>
     ///   <returns type="jQuery" />
     /// </signature>
@@ -948,13 +948,13 @@ intellisense.annotate(jQuery.fn, {
   },
   'before': function() {
     /// <signature>
-    ///   <summary>Insert content, specified by the parameter, before each element in the set of matched elements.</summary>
+    ///   <summary>Add content, specified by the parameter, before each element in the set of matched elements.</summary>
     ///   <param name="content" type="jQuery">HTML string, DOM element, or jQuery object to insert before each element in the set of matched elements.</param>
     ///   <param name="content" type="jQuery">One or more additional DOM elements, arrays of elements, HTML strings, or jQuery objects to insert before each element in the set of matched elements.</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
-    ///   <summary>Insert content, specified by the parameter, before each element in the set of matched elements.</summary>
+    ///   <summary>Add content, specified by the parameter, before each element in the set of matched elements.</summary>
     ///   <param name="function" type="Function">A function that returns an HTML string, DOM element(s), or jQuery object to insert before each element in the set of matched elements. Receives the index position of the element in the set as an argument. Within the function, this refers to the current element in the set.</param>
     ///   <returns type="jQuery" />
     /// </signature>
@@ -1024,7 +1024,7 @@ intellisense.annotate(jQuery.fn, {
   },
   'children': function() {
     /// <signature>
-    ///   <summary>Get the children of each element in the set of matched elements, optionally filtered by a selector.</summary>
+    ///   <summary>GetList the children of each element in the set of matched elements, optionally filtered by a selector.</summary>
     ///   <param name="selector" type="String">A string containing a selector expression to match elements against.</param>
     ///   <returns type="jQuery" />
     /// </signature>
@@ -1098,7 +1098,7 @@ intellisense.annotate(jQuery.fn, {
     /// </signature>
   },
   'contents': function() {
-    /// <summary>Get the children of each element in the set of matched elements, including text and comment nodes.</summary>
+    /// <summary>GetList the children of each element in the set of matched elements, including text and comment nodes.</summary>
     /// <returns type="jQuery" />
   },
   'context': function() {
@@ -1365,17 +1365,17 @@ intellisense.annotate(jQuery.fn, {
   },
   'find': function() {
     /// <signature>
-    ///   <summary>Get the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element.</summary>
+    ///   <summary>GetList the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element.</summary>
     ///   <param name="selector" type="String">A string containing a selector expression to match elements against.</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
-    ///   <summary>Get the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element.</summary>
+    ///   <summary>GetList the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element.</summary>
     ///   <param name="jQuery object" type="Object">A jQuery object to match elements against.</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
-    ///   <summary>Get the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element.</summary>
+    ///   <summary>GetList the descendants of each element in the current set of matched elements, filtered by a selector, jQuery object, or element.</summary>
     ///   <param name="element" type="Element">An element to match elements against.</param>
     ///   <returns type="jQuery" />
     /// </signature>
@@ -1575,11 +1575,11 @@ intellisense.annotate(jQuery.fn, {
     /// </signature>
   },
   'innerHeight': function() {
-    /// <summary>Get the current computed height for the first element in the set of matched elements, including padding but not border.</summary>
+    /// <summary>GetList the current computed height for the first element in the set of matched elements, including padding but not border.</summary>
     /// <returns type="Integer" />
   },
   'innerWidth': function() {
-    /// <summary>Get the current computed width for the first element in the set of matched elements, including padding but not border.</summary>
+    /// <summary>GetList the current computed width for the first element in the set of matched elements, including padding but not border.</summary>
     /// <returns type="Integer" />
   },
   'input': function() {
@@ -1587,14 +1587,14 @@ intellisense.annotate(jQuery.fn, {
   },
   'insertAfter': function() {
     /// <signature>
-    ///   <summary>Insert every element in the set of matched elements after the target.</summary>
+    ///   <summary>Add every element in the set of matched elements after the target.</summary>
     ///   <param name="target" type="jQuery">A selector, element, HTML string, or jQuery object; the matched set of elements will be inserted after the element(s) specified by this parameter.</param>
     ///   <returns type="jQuery" />
     /// </signature>
   },
   'insertBefore': function() {
     /// <signature>
-    ///   <summary>Insert every element in the set of matched elements before the target.</summary>
+    ///   <summary>Add every element in the set of matched elements before the target.</summary>
     ///   <param name="target" type="jQuery">A selector, element, HTML string, or jQuery object; the matched set of elements will be inserted before the element(s) specified by this parameter.</param>
     ///   <returns type="jQuery" />
     /// </signature>
@@ -1830,7 +1830,7 @@ intellisense.annotate(jQuery.fn, {
   },
   'next': function() {
     /// <signature>
-    ///   <summary>Get the immediately following sibling of each element in the set of matched elements. If a selector is provided, it retrieves the next sibling only if it matches that selector.</summary>
+    ///   <summary>GetList the immediately following sibling of each element in the set of matched elements. If a selector is provided, it retrieves the next sibling only if it matches that selector.</summary>
     ///   <param name="selector" type="String">A string containing a selector expression to match elements against.</param>
     ///   <returns type="jQuery" />
     /// </signature>
@@ -1851,20 +1851,20 @@ intellisense.annotate(jQuery.fn, {
   },
   'nextAll': function() {
     /// <signature>
-    ///   <summary>Get all following siblings of each element in the set of matched elements, optionally filtered by a selector.</summary>
+    ///   <summary>GetList all following siblings of each element in the set of matched elements, optionally filtered by a selector.</summary>
     ///   <param name="selector" type="String">A string containing a selector expression to match elements against.</param>
     ///   <returns type="jQuery" />
     /// </signature>
   },
   'nextUntil': function() {
     /// <signature>
-    ///   <summary>Get all following siblings of each element up to but not including the element matched by the selector, DOM node, or jQuery object passed.</summary>
+    ///   <summary>GetList all following siblings of each element up to but not including the element matched by the selector, DOM node, or jQuery object passed.</summary>
     ///   <param name="selector" type="String">A string containing a selector expression to indicate where to stop matching following sibling elements.</param>
     ///   <param name="filter" type="String">A string containing a selector expression to match elements against.</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
-    ///   <summary>Get all following siblings of each element up to but not including the element matched by the selector, DOM node, or jQuery object passed.</summary>
+    ///   <summary>GetList all following siblings of each element up to but not including the element matched by the selector, DOM node, or jQuery object passed.</summary>
     ///   <param name="element" type="Element">A DOM node or jQuery object indicating where to stop matching following sibling elements.</param>
     ///   <param name="filter" type="String">A string containing a selector expression to match elements against.</param>
     ///   <returns type="jQuery" />
@@ -1947,7 +1947,7 @@ intellisense.annotate(jQuery.fn, {
     /// </signature>
   },
   'offsetParent': function() {
-    /// <summary>Get the closest ancestor element that is positioned.</summary>
+    /// <summary>GetList the closest ancestor element that is positioned.</summary>
     /// <returns type="jQuery" />
   },
   'on': function() {
@@ -1999,41 +1999,41 @@ intellisense.annotate(jQuery.fn, {
   },
   'outerHeight': function() {
     /// <signature>
-    ///   <summary>Get the current computed height for the first element in the set of matched elements, including padding, border, and optionally margin. Returns an integer (without "px") representation of the value or null if called on an empty set of elements.</summary>
+    ///   <summary>GetList the current computed height for the first element in the set of matched elements, including padding, border, and optionally margin. Returns an integer (without "px") representation of the value or null if called on an empty set of elements.</summary>
     ///   <param name="includeMargin" type="Boolean">A Boolean indicating whether to include the element's margin in the calculation.</param>
     ///   <returns type="Integer" />
     /// </signature>
   },
   'outerWidth': function() {
     /// <signature>
-    ///   <summary>Get the current computed width for the first element in the set of matched elements, including padding and border.</summary>
+    ///   <summary>GetList the current computed width for the first element in the set of matched elements, including padding and border.</summary>
     ///   <param name="includeMargin" type="Boolean">A Boolean indicating whether to include the element's margin in the calculation.</param>
     ///   <returns type="Integer" />
     /// </signature>
   },
   'parent': function() {
     /// <signature>
-    ///   <summary>Get the parent of each element in the current set of matched elements, optionally filtered by a selector.</summary>
+    ///   <summary>GetList the parent of each element in the current set of matched elements, optionally filtered by a selector.</summary>
     ///   <param name="selector" type="String">A string containing a selector expression to match elements against.</param>
     ///   <returns type="jQuery" />
     /// </signature>
   },
   'parents': function() {
     /// <signature>
-    ///   <summary>Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector.</summary>
+    ///   <summary>GetList the ancestors of each element in the current set of matched elements, optionally filtered by a selector.</summary>
     ///   <param name="selector" type="String">A string containing a selector expression to match elements against.</param>
     ///   <returns type="jQuery" />
     /// </signature>
   },
   'parentsUntil': function() {
     /// <signature>
-    ///   <summary>Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector, DOM node, or jQuery object.</summary>
+    ///   <summary>GetList the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector, DOM node, or jQuery object.</summary>
     ///   <param name="selector" type="String">A string containing a selector expression to indicate where to stop matching ancestor elements.</param>
     ///   <param name="filter" type="String">A string containing a selector expression to match elements against.</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
-    ///   <summary>Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector, DOM node, or jQuery object.</summary>
+    ///   <summary>GetList the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector, DOM node, or jQuery object.</summary>
     ///   <param name="element" type="Element">A DOM node or jQuery object indicating where to stop matching ancestor elements.</param>
     ///   <param name="filter" type="String">A string containing a selector expression to match elements against.</param>
     ///   <returns type="jQuery" />
@@ -2043,52 +2043,52 @@ intellisense.annotate(jQuery.fn, {
     /// <summary>Selects all elements of type password.</summary>
   },
   'position': function() {
-    /// <summary>Get the current coordinates of the first element in the set of matched elements, relative to the offset parent.</summary>
+    /// <summary>GetList the current coordinates of the first element in the set of matched elements, relative to the offset parent.</summary>
     /// <returns type="Object" />
   },
   'prepend': function() {
     /// <signature>
-    ///   <summary>Insert content, specified by the parameter, to the beginning of each element in the set of matched elements.</summary>
+    ///   <summary>Add content, specified by the parameter, to the beginning of each element in the set of matched elements.</summary>
     ///   <param name="content" type="jQuery">DOM element, array of elements, HTML string, or jQuery object to insert at the beginning of each element in the set of matched elements.</param>
     ///   <param name="content" type="jQuery">One or more additional DOM elements, arrays of elements, HTML strings, or jQuery objects to insert at the beginning of each element in the set of matched elements.</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
-    ///   <summary>Insert content, specified by the parameter, to the beginning of each element in the set of matched elements.</summary>
+    ///   <summary>Add content, specified by the parameter, to the beginning of each element in the set of matched elements.</summary>
     ///   <param name="function(index, html)" type="Function">A function that returns an HTML string, DOM element(s), or jQuery object to insert at the beginning of each element in the set of matched elements. Receives the index position of the element in the set and the old HTML value of the element as arguments. Within the function, this refers to the current element in the set.</param>
     ///   <returns type="jQuery" />
     /// </signature>
   },
   'prependTo': function() {
     /// <signature>
-    ///   <summary>Insert every element in the set of matched elements to the beginning of the target.</summary>
+    ///   <summary>Add every element in the set of matched elements to the beginning of the target.</summary>
     ///   <param name="target" type="jQuery">A selector, element, HTML string, or jQuery object; the matched set of elements will be inserted at the beginning of the element(s) specified by this parameter.</param>
     ///   <returns type="jQuery" />
     /// </signature>
   },
   'prev': function() {
     /// <signature>
-    ///   <summary>Get the immediately preceding sibling of each element in the set of matched elements, optionally filtered by a selector.</summary>
+    ///   <summary>GetList the immediately preceding sibling of each element in the set of matched elements, optionally filtered by a selector.</summary>
     ///   <param name="selector" type="String">A string containing a selector expression to match elements against.</param>
     ///   <returns type="jQuery" />
     /// </signature>
   },
   'prevAll': function() {
     /// <signature>
-    ///   <summary>Get all preceding siblings of each element in the set of matched elements, optionally filtered by a selector.</summary>
+    ///   <summary>GetList all preceding siblings of each element in the set of matched elements, optionally filtered by a selector.</summary>
     ///   <param name="selector" type="String">A string containing a selector expression to match elements against.</param>
     ///   <returns type="jQuery" />
     /// </signature>
   },
   'prevUntil': function() {
     /// <signature>
-    ///   <summary>Get all preceding siblings of each element up to but not including the element matched by the selector, DOM node, or jQuery object.</summary>
+    ///   <summary>GetList all preceding siblings of each element up to but not including the element matched by the selector, DOM node, or jQuery object.</summary>
     ///   <param name="selector" type="String">A string containing a selector expression to indicate where to stop matching preceding sibling elements.</param>
     ///   <param name="filter" type="String">A string containing a selector expression to match elements against.</param>
     ///   <returns type="jQuery" />
     /// </signature>
     /// <signature>
-    ///   <summary>Get all preceding siblings of each element up to but not including the element matched by the selector, DOM node, or jQuery object.</summary>
+    ///   <summary>GetList all preceding siblings of each element up to but not including the element matched by the selector, DOM node, or jQuery object.</summary>
     ///   <param name="element" type="Element">A DOM node or jQuery object indicating where to stop matching preceding sibling elements.</param>
     ///   <param name="filter" type="String">A string containing a selector expression to match elements against.</param>
     ///   <returns type="jQuery" />
@@ -2322,7 +2322,7 @@ intellisense.annotate(jQuery.fn, {
   },
   'siblings': function() {
     /// <signature>
-    ///   <summary>Get the siblings of each element in the set of matched elements, optionally filtered by a selector.</summary>
+    ///   <summary>GetList the siblings of each element in the set of matched elements, optionally filtered by a selector.</summary>
     ///   <param name="selector" type="String">A string containing a selector expression to match elements against.</param>
     ///   <returns type="jQuery" />
     /// </signature>

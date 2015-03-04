@@ -19,22 +19,20 @@ namespace StackOverflow.Web.Controllers
     [Authorize]
     public class QuestionController : Controller
     {
+
+        private readonly IUnitOfWork _unitOfWork;
+
+        public QuestionController()
+        {
+            _unitOfWork = new UnitOfWork();
+        }
         // GET: Question
         [AllowAnonymous]
         public ActionResult Index()
         {
             List<QuestionListModel> models = new List<QuestionListModel>();
-            var context = new StackOverflowContext();
-            //var query = from q in context.Questions
-            //            orderby q.CreationDate
-            //            select q;
-         
-            //foreach (var item in query)
-            //{
-            //    var model = Mapper.Map<Question, QuestionListModel>(item);
-            //    models.Add(model);
-            //} 
-            foreach (var item in context.Questions)
+            var questions = _unitOfWork.QuestionRepository.GetList();
+            foreach (var item in questions)
             {
                 var model = Mapper.Map<Question, QuestionListModel>(item);
                 models.Add(model);
@@ -44,8 +42,7 @@ namespace StackOverflow.Web.Controllers
         [AllowAnonymous]
         public ActionResult Details(Guid id)
         {
-            var context = new StackOverflowContext();
-            Question question = context.Questions.FirstOrDefault(x => x.Id == id);
+            Question question = _unitOfWork.QuestionRepository.GetById(id);
             if (question == null)
                 return RedirectToAction("Index");
             question.Answers = question.Answers.OrderByDescending(c => c.Correct).ToList();
@@ -67,13 +64,12 @@ namespace StackOverflow.Web.Controllers
         [HttpPost]
         public ActionResult CreateAnswer(string description)
         {
-            var context = new StackOverflowContext();
             Guid idQuestion = Guid.Parse( TempData["id"].ToString());
-            var question = context.Questions.FirstOrDefault(q => q.Id == idQuestion);
+            var question = _unitOfWork.QuestionRepository.GetById(idQuestion);
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];         
             FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
             Guid creatorId = Guid.Parse(ticket.Name);
-            var account = context.Accounts.FirstOrDefault(a => a.Id == creatorId);
+            var account = _unitOfWork.AccountRepository.GetById(creatorId);
             if (account == null || question == null)
             {
                 return RedirectToAction("Index");
@@ -83,9 +79,8 @@ namespace StackOverflow.Web.Controllers
                 Description = description, CreationDate = DateTime.Now,
                 Owner = account, Question = question
             };
-
-            context.Answers.Add(answer);
-            context.SaveChanges();
+            _unitOfWork.AnswerRepository.Add(answer);
+            _unitOfWork.Commit();
             return RedirectToAction("Details", new{id = question.Id});
             //return RedirectToAction("Details", new {id = model.QuestionId});
         }
@@ -104,13 +99,12 @@ namespace StackOverflow.Web.Controllers
         }
         public ActionResult VoteQuestion(QuestionDetailsModel item)
         {
-            var context = new StackOverflowContext();
             Question question = Mapper.Map<QuestionDetailsModel, Question>(item);
-            var account = context.Accounts.FirstOrDefault(a => a.Id == item.OwnerId);
+            var account = _unitOfWork.AccountRepository.GetById(item.OwnerId);
             question.Owner = account;
             question.ModificationDate = DateTime.Now;
-            context.Entry(question).State = EntityState.Modified;
-            context.SaveChanges();
+            _unitOfWork.QuestionRepository.Update(question);
+            _unitOfWork.Commit();
             Guid idQuestion = Guid.Parse(TempData["id"].ToString());
             return RedirectToAction("Details", new { id = idQuestion });
         }
@@ -131,17 +125,16 @@ namespace StackOverflow.Web.Controllers
         public ActionResult VoteAnswer(AnswerModel itemModel)
         {
             Answer answer = Mapper.Map<AnswerModel, Answer>(itemModel);
-            var context = new StackOverflowContext();
            
-            var question = context.Questions.FirstOrDefault(q => q.Id == itemModel.QuestionId);
-            var account = context.Accounts.FirstOrDefault(a => a.Id == itemModel.OwnerId);
+            var question = _unitOfWork.QuestionRepository.GetById(itemModel.QuestionId);
+            var account = _unitOfWork.AccountRepository.GetById(itemModel.OwnerId);
             answer.Question = question;
             answer.Owner = account;
             
             Guid voterId = Guid.Parse(HttpContext.User.Identity.Name);
             
-            context.Entry(answer).State = EntityState.Modified;
-            context.SaveChanges();
+            _unitOfWork.AnswerRepository.Update(answer);
+            _unitOfWork.Commit();
 
             Guid idQuestion = Guid.Parse(TempData["id"].ToString());
             return RedirectToAction("Details", new { id = idQuestion });
@@ -151,15 +144,14 @@ namespace StackOverflow.Web.Controllers
         public ActionResult SelectCorrectAnswer(AnswerModel itemModel)
         {
             Answer answer = Mapper.Map<AnswerModel, Answer>(itemModel);
-            var context = new StackOverflowContext();
-            var question = context.Questions.FirstOrDefault(q => q.Id == itemModel.QuestionId);
-            var account = context.Accounts.FirstOrDefault(a => a.Id == itemModel.OwnerId);
+            var question = _unitOfWork.QuestionRepository.GetById(itemModel.QuestionId);
+            var account = _unitOfWork.AccountRepository.GetById(itemModel.OwnerId);
             answer.Question = question;
             answer.Owner = account;
             answer.Correct = true;
             question.IsAnswered = true;
-            context.Entry(answer).State = EntityState.Modified;
-            context.SaveChanges();
+            _unitOfWork.AnswerRepository.Update(answer);
+            _unitOfWork.Commit();
 
             Guid idQuestion = Guid.Parse(TempData["id"].ToString());
             return RedirectToAction("Details", new { id = idQuestion });
@@ -170,7 +162,6 @@ namespace StackOverflow.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var context = new StackOverflowContext();
                 Question question = Mapper.Map<AskQuestionModel, Question>(model);
                 
                 HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];
@@ -178,14 +169,13 @@ namespace StackOverflow.Web.Controllers
                 {
                     FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
                     Guid creatorId = Guid.Parse(ticket.Name);
-                    question.Owner = context.Accounts
-                    .FirstOrDefault(x => x.Id == creatorId);
+                    question.Owner = _unitOfWork.AccountRepository.GetById(creatorId);
                     question.ModificationDate = question.CreationDate =
                         DateTime.Now;
                 }
                 
-                context.Questions.Add(question);
-                context.SaveChanges();
+                _unitOfWork.QuestionRepository.Add(question);
+                _unitOfWork.Commit();
                 return RedirectToAction("Details", new { id = question.Id });
             }
             return View(model);

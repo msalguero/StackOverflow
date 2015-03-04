@@ -2,7 +2,7 @@
 
 namespace StackOverflow.Data
 {
-    class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly StackOverflowContext _context;
         private GenericRepository<Account> _accountRepository;

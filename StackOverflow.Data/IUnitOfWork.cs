@@ -1,9 +1,18 @@
-﻿namespace StackOverflow.Data
+﻿using StackOverflow.Domain.Entities;
+
+namespace StackOverflow.Data
 {
-    interface IUnitOfWork
+    public interface IUnitOfWork
     {
+
         void Commit();
 
         void Rollback();
+
+        GenericRepository<Account> AccountRepository { get; }
+
+        GenericRepository<Question> QuestionRepository { get; }
+
+        GenericRepository<Answer> AnswerRepository { get; } 
     }
 }
