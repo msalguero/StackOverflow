@@ -16,6 +16,7 @@ using StackOverflow.Web.Models;
 
 namespace StackOverflow.Web.Controllers
 {
+    [Logging]
     [Authorize]
     public class QuestionController : Controller
     {

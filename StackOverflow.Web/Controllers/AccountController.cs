@@ -13,6 +13,8 @@ using StackOverflow.Web.Models;
 
 namespace StackOverflow.Web.Controllers
 {
+    
+    [Logging]
     public class AccountController : Controller
     {
         private readonly IMappingEngine _mappingEngine;
@@ -23,7 +25,7 @@ namespace StackOverflow.Web.Controllers
             _mappingEngine = mappingEngine;
             _unitOfWork = new UnitOfWork();
         }
-
+        
         public ActionResult Register()
         {
             return View(new AccountRegisterModel());
