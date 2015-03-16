@@ -9,6 +9,7 @@ using System.Web.Http.Controllers;
 using System.Web.Mvc;
 using FilterAttribute = System.Web.Mvc.FilterAttribute;
 using IActionFilter = System.Web.Mvc.IActionFilter;
+using IExceptionFilter = System.Web.Mvc.IExceptionFilter;
 using log4net;
 
 namespace StackOverflow.Web.Controllers
@@ -29,8 +30,11 @@ namespace StackOverflow.Web.Controllers
 
         public void OnException(ExceptionContext filterContext)
         {
-            var message = filterContext.Exception.InnerException.Message;
+            var message = filterContext.Exception.Message;
             Logger.Error(message);
+
+            filterContext.ExceptionHandled = true;
+            filterContext.Result = new ViewResult();
         }
 
         public void OnActionExecuting(ActionExecutingContext filterContext)

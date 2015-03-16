@@ -85,7 +85,7 @@ namespace StackOverflow.Web.Controllers
             @ViewBag.Message = "El correo fue enviado";
             Account account = _unitOfWork.AccountRepository.GetWithFilter(x => x.Email == model.Email);
             if (account == null)
-                return View(new ForgotPasswordModel());
+                throw new SystemException();
             IEmailSender email = new EmailSender();
             
             email.SendEmail(model.Email, "Account/ChangePassword/"+account.Id.ToString());
