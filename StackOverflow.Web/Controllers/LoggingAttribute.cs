@@ -29,7 +29,8 @@ namespace StackOverflow.Web.Controllers
 
         public void OnException(ExceptionContext filterContext)
         {
-            
+            var message = filterContext.Exception.InnerException.Message;
+            Logger.Error(message);
         }
 
         public void OnActionExecuting(ActionExecutingContext filterContext)
