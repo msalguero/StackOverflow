@@ -7,7 +7,13 @@ namespace StackOverflow.Web.Models
     public class AccountRegisterModel
     {
         [Required]
+        [Maximum(50)]
+        [Minimum(2)]
         public string Name { get; set; }
+        [Required]
+        [Maximum(50)]
+        [Minimum(2)]
+        public string LastName { get; set; }
         [Required]
         [EmailAddress]
         public string Email { get; set; }

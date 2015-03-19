@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using AutoMapper;
+using MvcReCaptcha;
 using StackOverflow.Data;
 using StackOverflow.Domain.Entities;
 using StackOverflow.Domain.Services;
@@ -19,11 +20,15 @@ namespace StackOverflow.Web.Controllers
     {
         private readonly IMappingEngine _mappingEngine;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmailSender _email;
+        private int loginAttempts;
 
         public AccountController(IMappingEngine mappingEngine)
         {
             _mappingEngine = mappingEngine;
             _unitOfWork = new UnitOfWork();
+            _email = new MailgunSender();
+            loginAttempts = 0;
         }
         
         public ActionResult Register()
@@ -36,9 +41,18 @@ namespace StackOverflow.Web.Controllers
         {
             if (ModelState.IsValid && model.ConfirmPassword == model.Password)
             {
+                if (_unitOfWork.AccountRepository.GetWithFilter(x => x.Email == model.Email) != null)
+                {
+                    return View(new AccountRegisterModel());
+                }
                 Account newAccount = _mappingEngine.Map<AccountRegisterModel, Account>(model);
                 _unitOfWork.AccountRepository.Add(newAccount);
                 _unitOfWork.Commit();
+
+                var hostName = HttpContext.Request.Url.Host;
+                if (hostName == "localhost")
+                    hostName = Request.Url.GetLeftPart(UriPartial.Authority);
+                _email.SendEmail(model.Email, "To validate the account go to: "+hostName+"/Account/ChangePassword/");
                 return RedirectToAction("Login");
             }
             model.Password = "";
@@ -48,20 +62,37 @@ namespace StackOverflow.Web.Controllers
 
         public ActionResult Login()
         {
+            if (loginAttempts > 3)
+            {
+                @ViewBag.Captcha = true;
+                loginAttempts = 0;
+            }
+                
             return View(new AccountLoginModel());
         }
 
         [HttpPost]
-        public ActionResult Login(AccountLoginModel model)
+        [CaptchaValidator]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult Login(AccountLoginModel model, bool captchaValid)
         {
+            if (!captchaValid)
+            {
+                ModelState.AddModelError("_FORM", "You did not type the verification word correctly. Please try again.");
+            }
             if (ModelState.IsValid)
             {
-                Account account = _unitOfWork.AccountRepository.GetWithFilter(x => x.Email == model.Email && x.Password == model.Password);
+                Account account = _unitOfWork.AccountRepository.GetWithFilter(x => x.Email == model.Email);
                 if (account != null)
                 {
-                    FormsAuthentication.SetAuthCookie(account.Id.ToString(), false);
+                    if (account.Password == model.Password)
+                    {
+                        FormsAuthentication.SetAuthCookie(account.Id.ToString(), false);
 
-                    return RedirectToAction("Index", "Question");
+                        return RedirectToAction("Index", "Question");
+                    }
+                    _email.SendEmail(account.Email, "There was a failed attempt to enter your account.");
+                    loginAttempts++;
                 }
             }
             ViewBag.Message = "Email or Password invalid";
@@ -90,13 +121,12 @@ namespace StackOverflow.Web.Controllers
                 return View(new ForgotPasswordModel());
             }
                 
-            IEmailSender email = new MailgunSender();
             var hostName = HttpContext.Request.Url.Host;
             if (hostName == "localhost")
                 hostName = Request.Url.GetLeftPart(UriPartial.Authority);
 
             @ViewBag.Message = "The email has been sent with further instructions";
-            email.SendEmail(model.Email, hostName+"/Account/ChangePassword/"+account.Id.ToString());
+            _email.SendEmail(model.Email, hostName+"/Account/ValidateAccount/"+account.Id.ToString());
             return View(model);
         }
 
@@ -133,6 +163,12 @@ namespace StackOverflow.Web.Controllers
             }
             ViewBag.Message = "Your password has been updated";
             return RedirectToAction("Login");
+        }
+
+        public ActionResult ValidateAccount(Guid id)
+        {
+            Account account = _unitOfWork.AccountRepository.GetById(id);
+            return RedirectToAction("Index", "Question");
         }
     }
 }

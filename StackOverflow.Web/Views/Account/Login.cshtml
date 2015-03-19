@@ -1,4 +1,5 @@
-﻿@model StackOverflow.Web.Models.AccountLoginModel
+﻿@using MvcReCaptcha.Helpers
+@model StackOverflow.Web.Models.AccountLoginModel
 
 @{
     ViewBag.Title = "Login";
@@ -38,8 +39,15 @@
                 <input type="submit" value="Log In" class="btn btn-default"/>
                 @Html.ActionLink("Forgot password", "ForgotPassword")
                 @Html.ActionLink("Need an Account", "Register")
+                
             </div>
         </div>
+        
+            <div class="col-md-offset-2 ">
+                @Html.Raw(Html.GenerateCaptcha())
+            </div>
+        
+        
     </div>
 }
 
