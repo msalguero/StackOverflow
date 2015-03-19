@@ -15,5 +15,6 @@ namespace StackOverflow.Web.Models
         public Guid QuestionId { get; set; }
         public bool IsAnswered { get; set; }
         public int AnswersCount { get; set; }
+        public int Views { get; set; }
     }
 }

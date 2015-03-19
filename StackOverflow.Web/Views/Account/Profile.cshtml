@@ -7,7 +7,7 @@
 <h2>Profile</h2>
 
 <div>
-    <hr />
+    <hr/>
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Name)
@@ -65,8 +65,59 @@
             @Html.DisplayFor(model => model.Age)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.RegistrationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegistrationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProfileViews)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProfileViews)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastProfileViewDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastProfileViewDate)
+        </dd>
+
     </dl>
 </div>
+
+<div class="row">
+    <h4>Questions</h4>
+    <hr />
+    <ul class="list-group">
+        @foreach (var item in Model.QuestionList)
+        {
+            <li class="list-group-item col-md-9 ">
+                <div> @Html.ActionLink(item.Title, "Details", "Question", new {id = item.QuestionId}, null)</div>
+            </li>
+        }
+    </ul>
+</div>
+<hr/>
+<div class="row">
+    <h4>Answers</h4>
+    <hr/>
+    <ul class="list-group">
+        @foreach (var item in Model.AnswerList)
+        {
+            <li class="list-group-item col-md-9 ">
+               
+            </li>
+        }
+    </ul>
+</div>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ })
 </p>

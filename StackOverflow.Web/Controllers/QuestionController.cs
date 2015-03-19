@@ -48,7 +48,10 @@ namespace StackOverflow.Web.Controllers
                 return RedirectToAction("Index");
             question.Answers = question.Answers.OrderByDescending(c => c.Correct).ToList();
             QuestionDetailsModel questionModel = Mapper.Map<Question,QuestionDetailsModel>(question);
-           
+
+            question.Views += 1;
+            _unitOfWork.QuestionRepository.Update(question);
+            _unitOfWork.Commit();
             return View(questionModel);
         }
         //[AllowAnonymous]

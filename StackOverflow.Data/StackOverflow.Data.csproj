@@ -79,6 +79,18 @@
     <Compile Include="Migrations\201502221809054_AddingIsAnsweredBool.Designer.cs">
       <DependentUpon>201502221809054_AddingIsAnsweredBool.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503192018085_AccountActivation.cs" />
+    <Compile Include="Migrations\201503192018085_AccountActivation.Designer.cs">
+      <DependentUpon>201503192018085_AccountActivation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503192035510_QuestionViews.cs" />
+    <Compile Include="Migrations\201503192035510_QuestionViews.Designer.cs">
+      <DependentUpon>201503192035510_QuestionViews.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503192112574_ProfileUpdates.cs" />
+    <Compile Include="Migrations\201503192112574_ProfileUpdates.Designer.cs">
+      <DependentUpon>201503192112574_ProfileUpdates.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="StackOverflowContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -115,6 +127,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201502221809054_AddingIsAnsweredBool.resx">
       <DependentUpon>201502221809054_AddingIsAnsweredBool.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503192018085_AccountActivation.resx">
+      <DependentUpon>201503192018085_AccountActivation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503192035510_QuestionViews.resx">
+      <DependentUpon>201503192035510_QuestionViews.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503192112574_ProfileUpdates.resx">
+      <DependentUpon>201503192112574_ProfileUpdates.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -52,7 +52,7 @@ namespace StackOverflow.Web.Controllers
                 var hostName = HttpContext.Request.Url.Host;
                 if (hostName == "localhost")
                     hostName = Request.Url.GetLeftPart(UriPartial.Authority);
-                _email.SendEmail(model.Email, "To validate the account go to: "+hostName+"/Account/ChangePassword/");
+                _email.SendEmail(model.Email, "To validate the account go to: " + hostName + "/Account/ValidateAccount/" + newAccount.Id.ToString());
                 return RedirectToAction("Login");
             }
             model.Password = "";
@@ -87,6 +87,11 @@ namespace StackOverflow.Web.Controllers
                 {
                     if (account.Password == model.Password)
                     {
+                        if (!account.IsActive)
+                        {
+                            ViewBag.Message = "Please validate the account";
+                            return View(new AccountLoginModel());
+                        }
                         FormsAuthentication.SetAuthCookie(account.Id.ToString(), false);
 
                         return RedirectToAction("Index", "Question");
@@ -126,7 +131,7 @@ namespace StackOverflow.Web.Controllers
                 hostName = Request.Url.GetLeftPart(UriPartial.Authority);
 
             @ViewBag.Message = "The email has been sent with further instructions";
-            _email.SendEmail(model.Email, hostName+"/Account/ValidateAccount/"+account.Id.ToString());
+            _email.SendEmail(model.Email, hostName+"/Account/ChangePassword/"+account.Id.ToString());
             return View(model);
         }
 
@@ -137,6 +142,10 @@ namespace StackOverflow.Web.Controllers
             {
                 _unitOfWork.AccountRepository.Load(account, "Questions");
                 _unitOfWork.AccountRepository.Load(account, "Answers");
+                account.ProfileViews += 1;
+                account.LastProfileViewDate = DateTime.Now;
+                _unitOfWork.AccountRepository.Update(account);
+                _unitOfWork.Commit();
                 var model = _mappingEngine.Map<Account, AccountProfileModel>(account);
                 
                 return View(model);
@@ -168,7 +177,11 @@ namespace StackOverflow.Web.Controllers
         public ActionResult ValidateAccount(Guid id)
         {
             Account account = _unitOfWork.AccountRepository.GetById(id);
-            return RedirectToAction("Index", "Question");
+
+            account.IsActive = true;
+            _unitOfWork.AccountRepository.Update(account);
+            _unitOfWork.Commit();
+            return RedirectToAction("Login");
         }
     }
 }

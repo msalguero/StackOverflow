@@ -31,6 +31,8 @@ namespace StackOverflow.Web
             Mapper.CreateMap<Account, AccountProfileModel>()
                 .ForMember(dest => dest.QuestionsAsked, opt => opt.MapFrom(src => src.Questions.Count))
                 .ForMember(dest => dest.Answers, opt => opt.MapFrom(src => src.Answers.Count))
+                .ForMember(dest => dest.AnswerList, opt => opt.MapFrom(src => src.Answers))
+                .ForMember(dest => dest.QuestionList, opt=> opt.MapFrom(src => src.Questions))
                 .ReverseMap();
             Mapper.CreateMap<Account, ChangePasswordModel>().ReverseMap();
             Mapper.CreateMap<Account, ForgotPasswordModel>().ReverseMap();

@@ -16,5 +16,6 @@ namespace StackOverflow.Web.Models
 
         public ICollection<AnswerModel> Answers { get; set; }
         public bool IsAnswered { get; set; }
+        public int Views { get; set; }
     }
 }
