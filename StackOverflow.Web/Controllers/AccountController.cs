@@ -85,10 +85,18 @@ namespace StackOverflow.Web.Controllers
             @ViewBag.Message = "El correo fue enviado";
             Account account = _unitOfWork.AccountRepository.GetWithFilter(x => x.Email == model.Email);
             if (account == null)
-                throw new SystemException();
-            IEmailSender email = new EmailSender();
-            
-            email.SendEmail(model.Email, "Account/ChangePassword/"+account.Id.ToString());
+            {
+                @ViewBag.Message = "The email does not exist";
+                return View(new ForgotPasswordModel());
+            }
+                
+            IEmailSender email = new MailgunSender();
+            var hostName = HttpContext.Request.Url.Host;
+            if (hostName == "localhost")
+                hostName = Request.Url.GetLeftPart(UriPartial.Authority);
+
+            @ViewBag.Message = "The email has been sent with further instructions";
+            email.SendEmail(model.Email, hostName+"/Account/ChangePassword/"+account.Id.ToString());
             return View(model);
         }
 
@@ -123,8 +131,8 @@ namespace StackOverflow.Web.Controllers
                 _unitOfWork.AccountRepository.Update(account);
                 _unitOfWork.Commit();
             }
-                
-            return View(new ChangePasswordModel());
+            ViewBag.Message = "Your password has been updated";
+            return RedirectToAction("Login");
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+using System.Web.Helpers;
 using System.Web.Http;
+using System.Web.Http.ModelBinding;
+using System.Web.Mvc;
 using StackOverflow.Data;
 using StackOverflow.Domain.Entities;
+using StackOverflow.Web.Models;
 
 namespace StackOverflow.Web.Controllers.Api
 {
@@ -13,15 +13,18 @@ namespace StackOverflow.Web.Controllers.Api
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public QuestionDetailController(IUnitOfWork unitOfWork)
+        public QuestionDetailController()
         {
-            _unitOfWork = unitOfWork;
+            _unitOfWork = new UnitOfWork();
         }
 
-        public string Get(Guid id)
+        public QuestionDetailsModel Get(Guid id)
         {
             Question question = _unitOfWork.QuestionRepository.GetById(id);
-            return question.ToString();
+            
+            return AutoMapper.Mapper.Map<Question,QuestionDetailsModel>(question);
         }
+
+        
     }
 }

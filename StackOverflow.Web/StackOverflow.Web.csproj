@@ -157,8 +157,14 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AnswerController.cs" />
+    <Compile Include="Controllers\Api\AnswerQuestionController.cs" />
+    <Compile Include="Controllers\Api\LoginController.cs" />
+    <Compile Include="Controllers\Api\NewQuestionController.cs" />
     <Compile Include="Controllers\Api\QuestionDetailController.cs" />
+    <Compile Include="Controllers\Api\QuestionIndexController.cs" />
+    <Compile Include="Controllers\Api\RegisterController.cs" />
     <Compile Include="Controllers\LoggingAttribute.cs" />
+    <Compile Include="Controllers\MyPasswordAttribute.cs" />
     <Compile Include="Models\AccountProfileModel.cs" />
     <Compile Include="Models\AnswerModel.cs" />
     <Compile Include="Models\AskQuestionModel.cs" />
@@ -196,7 +202,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
