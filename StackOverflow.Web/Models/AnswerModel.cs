@@ -15,5 +15,6 @@ namespace StackOverflow.Web.Models
         public Guid Id { get;  set; }
         public bool Correct { get; set; }
         public Guid QuestionId { get; set; }
+        public ICollection<CommentListModel> Comments { get; set; } 
     }
 }

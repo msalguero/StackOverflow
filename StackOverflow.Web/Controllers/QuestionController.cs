@@ -32,9 +32,10 @@ namespace StackOverflow.Web.Controllers
         public ActionResult Index()
         {
             List<QuestionListModel> models = new List<QuestionListModel>();
-            var questions = _unitOfWork.QuestionRepository.GetList();
+            var questions = _unitOfWork.QuestionRepository.GetList().OrderByDescending(x=> x.CreationDate).ToList().Take(25);
             foreach (var item in questions)
             {
+
                 var model = Mapper.Map<Question, QuestionListModel>(item);
                 models.Add(model);
             }
@@ -47,11 +48,20 @@ namespace StackOverflow.Web.Controllers
             if (question == null)
                 return RedirectToAction("Index");
             question.Answers = question.Answers.OrderByDescending(c => c.Correct).ToList();
+            if(!question.IsAnswered)
+                question.Answers = question.Answers.OrderByDescending(c => c.Votes).ToList();
+            if(question.Answers.Count>0 && question.Answers.ElementAt(0).Votes == 0)
+                question.Answers = question.Answers.OrderByDescending(c => c.CreationDate).ToList();
             QuestionDetailsModel questionModel = Mapper.Map<Question,QuestionDetailsModel>(question);
 
             question.Views += 1;
             _unitOfWork.QuestionRepository.Update(question);
             _unitOfWork.Commit();
+
+            var md = new MarkdownDeep.Markdown();
+            md.ExtraMode = true;
+            md.SafeMode = false;
+            questionModel.Description = md.Transform(questionModel.Description);
             return View(questionModel);
         }
         //[AllowAnonymous]
@@ -68,7 +78,12 @@ namespace StackOverflow.Web.Controllers
         [HttpPost]
         public ActionResult CreateAnswer(string description)
         {
-            Guid idQuestion = Guid.Parse( TempData["id"].ToString());
+            Guid idQuestion = Guid.Parse(TempData["id"].ToString());
+            //if (description.Length < 50)
+            //{
+            //    @ViewBag.Error = "Answer must be more than 50 characters";
+            //    return RedirectToAction("Details", new { id = idQuestion });
+            //}            
             var question = _unitOfWork.QuestionRepository.GetById(idQuestion);
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];         
             FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
@@ -154,6 +169,23 @@ namespace StackOverflow.Web.Controllers
             answer.Owner = account;
             answer.Correct = true;
             question.IsAnswered = true;
+            _unitOfWork.AnswerRepository.Update(answer);
+            _unitOfWork.Commit();
+
+            Guid idQuestion = Guid.Parse(TempData["id"].ToString());
+            return RedirectToAction("Details", new { id = idQuestion });
+        }
+
+        [HttpPost]
+        public ActionResult RemoveCorrectAnswer(AnswerModel itemModel)
+        {
+            Answer answer = Mapper.Map<AnswerModel, Answer>(itemModel);
+            var question = _unitOfWork.QuestionRepository.GetById(itemModel.QuestionId);
+            var account = _unitOfWork.AccountRepository.GetById(itemModel.OwnerId);
+            answer.Question = question;
+            answer.Owner = account;
+            answer.Correct = false;
+            question.IsAnswered = false;
             _unitOfWork.AnswerRepository.Update(answer);
             _unitOfWork.Commit();
 

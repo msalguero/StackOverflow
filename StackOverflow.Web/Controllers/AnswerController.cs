@@ -5,22 +5,23 @@ using System.Web;
 using System.Web.Mvc;
 using StackOverflow.Data;
 using StackOverflow.Domain.Entities;
+using StackOverflow.Web.Models;
 
 namespace StackOverflow.Web.Controllers
 {
     public class AnswerController : Controller
     {
         // GET: Answer
-        //[HttpPost]
-        //public ActionResult CreateAnswer(string description)
-        //{
-        //    var context = new StackOverflowContext();
-        //    var question = context.Questions.FirstOrDefault(question => question.Id = ViewBag.CurrentQuestion);
-        //    var model = new Answer { Description = description, CreationDate = DateTime.Now };
-
-
-        //    return RedirectToAction("Index");
-        //    //return RedirectToAction("Details", new {id = model.QuestionId});
-        //}
+        public ActionResult AnswerIndex(IEnumerable<AnswerModel> models)
+        {
+            var md = new MarkdownDeep.Markdown();
+            md.ExtraMode = true;
+            md.SafeMode = false;
+            foreach (var model in models)
+            {
+                model.Description = md.Transform(model.Description);
+            }
+            return PartialView(models);
+        }
     }
 }

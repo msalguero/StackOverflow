@@ -10,7 +10,7 @@
 }
 
 <h2>Details</h2>
-
+@ViewBag.Error
 
 <p>
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
@@ -40,13 +40,18 @@
             </button>
         }
     </div>
-    <div class="col-md-6">@Html.DisplayFor(model => model.Description)</div>
+    <div class="col-md-6">@Html.Raw(Model.Description)</div>
     <div class="well col-md-1">
         <div class="row">@Html.ActionLink(Model.OwnerName, "Profile", "Account", new {id = Model.OwnerId}, null)</div>
         <div class="row">@Html.DisplayFor(model => model.CreationDate)</div>
         <div class="row">Views: @Html.DisplayFor(model => model.Views)</div>
     </div>
 </div>
+
 <div class="row">
-    @{ Html.RenderPartial("AnswerIndex", Model.Answers);}
+    @{ Html.RenderAction("CommentIndex", "Comment", new { models = Model.Comments, entity = "Question"});}
+</div>
+
+<div class="row">
+    @{ Html.RenderAction("AnswerIndex", "Answer", new {models = Model.Answers});}
 </div>

@@ -7,7 +7,8 @@ namespace StackOverflow.Data
         private readonly StackOverflowContext _context;
         private GenericRepository<Account> _accountRepository;
         private GenericRepository<Question> _questionRepository;
-        private GenericRepository<Answer> _answerRepository; 
+        private GenericRepository<Answer> _answerRepository;
+        private GenericRepository<Comment> _commentRepository;
 
         public UnitOfWork()
         {
@@ -37,6 +38,11 @@ namespace StackOverflow.Data
         public GenericRepository<Answer> AnswerRepository
         {
             get { return _answerRepository ?? (_answerRepository = new GenericRepository<Answer>(_context)); }
-        } 
+        }
+
+        public GenericRepository<Comment> CommentRepository
+        {
+            get { return _commentRepository ?? (_commentRepository = new GenericRepository<Comment>(_context)); }
+        }
     }
 }

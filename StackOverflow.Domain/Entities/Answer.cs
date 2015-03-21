@@ -13,6 +13,7 @@ namespace StackOverflow.Domain.Entities
         public DateTime CreationDate { get; set; }
         public bool Correct { get; set; }
         public virtual ICollection<Guid> Voters { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; } 
 
         public Answer()
         {

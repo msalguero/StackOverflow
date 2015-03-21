@@ -21,14 +21,12 @@ namespace StackOverflow.Web.Controllers
         private readonly IMappingEngine _mappingEngine;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEmailSender _email;
-        private int loginAttempts;
 
         public AccountController(IMappingEngine mappingEngine)
         {
             _mappingEngine = mappingEngine;
             _unitOfWork = new UnitOfWork();
             _email = new MailgunSender();
-            loginAttempts = 0;
         }
         
         public ActionResult Register()
@@ -62,11 +60,10 @@ namespace StackOverflow.Web.Controllers
 
         public ActionResult Login()
         {
-            if (loginAttempts > 3)
-            {
-                @ViewBag.Captcha = true;
-                loginAttempts = 0;
-            }
+            if (TempData["Attempts"] == null)
+                TempData["Attempts"] = 0;
+            @ViewBag.Captcha = false;
+            
                 
             return View(new AccountLoginModel());
         }
@@ -76,7 +73,8 @@ namespace StackOverflow.Web.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Login(AccountLoginModel model, bool captchaValid)
         {
-            if (!captchaValid)
+          
+            if (!captchaValid )
             {
                 ModelState.AddModelError("_FORM", "You did not type the verification word correctly. Please try again.");
             }
@@ -97,7 +95,12 @@ namespace StackOverflow.Web.Controllers
                         return RedirectToAction("Index", "Question");
                     }
                     _email.SendEmail(account.Email, "There was a failed attempt to enter your account.");
-                    loginAttempts++;
+                    TempData["Attempts"] = (int)TempData["Attempts"] + 1;
+                    if ((int) TempData["Attempts"] > 3)
+                    {
+                        @ViewBag.Captcha = true;
+                        TempData["Attempts"] = 0;
+                    }
                 }
             }
             ViewBag.Message = "Email or Password invalid";
@@ -146,6 +149,8 @@ namespace StackOverflow.Web.Controllers
                 account.LastProfileViewDate = DateTime.Now;
                 _unitOfWork.AccountRepository.Update(account);
                 _unitOfWork.Commit();
+                account.Questions = account.Questions.OrderByDescending(x => x.CreationDate).ToList();
+                account.Answers = account.Answers.OrderByDescending(x => x.CreationDate).ToList();
                 var model = _mappingEngine.Map<Account, AccountProfileModel>(account);
                 
                 return View(model);

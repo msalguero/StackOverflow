@@ -1,0 +1,24 @@
+﻿@model IEnumerable<StackOverflow.Web.Models.CommentListModel>
+
+
+
+
+<ul class="list-group col-lg-offset-4">
+    @foreach (var item in Model)
+    {
+        <li class="list-group-item">@item.Description -by @item.OwnerName on @item.CreationDate</li>
+    }
+    
+    @using (Html.BeginForm("CreateComment", "Comment"))
+    {
+        <li class="list-group-item">@Html.TextArea("comment", "add a comment");
+           
+            @Html.TextBox("AnswerId", (string)@ViewBag.Entity, new { @class = "hidden-item" });
+            <div class="form-group">
+                
+                    <input type="submit" value="Submit Comment" class="btn btn-default" />
+                
+            </div>
+        </li>
+    }
+</ul>

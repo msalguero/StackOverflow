@@ -122,4 +122,22 @@ namespace StackOverflow.Web.Controllers
             return ValidationResult.Success;
         }
     }
+
+    public class MinimumWordsAttribute : ValidationAttribute
+    {
+        int _min;
+
+        public MinimumWordsAttribute(int min)
+        {
+            this._min = min;
+        }
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+
+            string stringValue = (string)value;
+            if (stringValue.Length < _min)
+                return new ValidationResult("Must Contain more than " + _min+" words");
+            return ValidationResult.Success;
+        }
+    }
 }

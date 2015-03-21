@@ -1,13 +1,18 @@
 ﻿@using System.EnterpriseServices
 @using StackOverflow.Web.Models
 @model IEnumerable<StackOverflow.Web.Models.AnswerModel>
+
+
 <div class="row">
     <h4>Answers</h4>
     <hr/>
     <ul class="list-group">
         @foreach (var item in Model)
         {
+
             <li class="list-group-item col-md-9 ">
+                
+
                 @if (item.Correct)
                 {
                     <span class="glyphicon glyphicon-ok-sign col-sm-1 " aria-hidden="true"></span>
@@ -30,30 +35,46 @@
                         </button>
                     }
                 </div>
-                    
-                
+
+
                 <div>
-                    <div class="col-md-6">@Html.DisplayFor(modelItem => item.Description)</div>
+                    <div class="col-md-6" >@Html.Raw(@item.Description)</div>
                     <div class="col-md-2">
                         answered by @Html.ActionLink(item.OwnerName, "Profile", "Account", new {id = item.OwnerId}, null)
                         on @Html.DisplayFor(modelItem => item.CreationDate)
                     </div>
                 </div>
                 <div class="row">
-                    @if (TempData["QuestionOwnerId"].ToString() == Context.User.Identity.Name && !((bool)TempData["isAnswered"]))
+                    @if (TempData["QuestionOwnerId"].ToString() == Context.User.Identity.Name && !((bool) TempData["isAnswered"]))
                     {
                         using (Html.BeginForm("SelectCorrectAnswer", "Question", item))
                         {
                             <div class="form-group">
                                 <div>
-                                    <input type="submit" value="Set as correct" class="btn btn-success" />
+                                    <input type="submit" value="Set as correct" class="btn btn-success"/>
+                                </div>
+                            </div>
+                        }
+
+                    }
+                    @if (item.Correct && TempData["QuestionOwnerId"].ToString() == Context.User.Identity.Name)
+                    {
+                        using (Html.BeginForm("RemoveCorrectAnswer", "Question", item))
+                        {
+                            <div class="form-group">
+                                <div>
+                                    <input type="submit" value="Set as not correct" class="btn btn-danger"/>
                                 </div>
                             </div>
                         }
                     }
-                    
+
 
                 </div>
+                <div class="row">
+                    @{ Html.RenderAction("CommentIndex", "Comment", new {models = item.Comments, entity = item.Id.ToString()});}
+                </div>
+
             </li>
         }
     </ul>
@@ -68,12 +89,22 @@
                 @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>*@
-        @Html.TextArea("description");
+        <div class="mdd_toolbar"></div>
+        @Html.TextArea("description", new {@class = "mdd_editor"});
+        <div class="mdd_resizer"></div>
+        <div class="mdd_preview"></div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Submit Answer" class="btn btn-default" />
+                <input type="submit" value="Submit Answer" class="btn btn-default"/>
             </div>
         </div>
     </div>
+    <script>
+        $("textarea.mdd_editor").MarkdownDeep({
+            help_location: "/Content/mdd_help.html",
+            disableTabHandling: true
+        });
+    </script>
 }
+

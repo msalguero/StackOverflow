@@ -66,6 +66,9 @@
     <Reference Include="LogentriesLog4net">
       <HintPath>..\packages\logentries.log4net.2.6.3\lib\net40\LogentriesLog4net.dll</HintPath>
     </Reference>
+    <Reference Include="MarkdownDeep">
+      <HintPath>..\packages\MarkdownDeep.Full.1.5\lib\.NetFramework 3.5\MarkdownDeep.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.WindowsAzure.Configuration">
       <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.2.0.3\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
@@ -171,12 +174,14 @@
     <Compile Include="Controllers\Api\QuestionDetailController.cs" />
     <Compile Include="Controllers\Api\QuestionIndexController.cs" />
     <Compile Include="Controllers\Api\RegisterController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\LoggingAttribute.cs" />
     <Compile Include="Controllers\MyPasswordAttribute.cs" />
     <Compile Include="Models\AccountProfileModel.cs" />
     <Compile Include="Models\AnswerModel.cs" />
     <Compile Include="Models\AskQuestionModel.cs" />
     <Compile Include="Models\ChangePasswordModel.cs" />
+    <Compile Include="Models\CommentListModel.cs" />
     <Compile Include="Models\ForgotPasswordModel.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Models\AccountLoginModel.cs" />
@@ -192,6 +197,12 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\mdd_ajax_loader.gif" />
+    <Content Include="Content\mdd_gripper.png" />
+    <Content Include="Content\mdd_help.htm" />
+    <Content Include="Content\mdd_modal_background.png" />
+    <Content Include="Content\mdd_styles.css" />
+    <Content Include="Content\mdd_toolbar.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -206,6 +217,9 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\MarkdownDeep License.txt" />
+    <Content Include="Scripts\MarkdownDeep Quick Reference.txt" />
+    <Content Include="Scripts\MarkdownDeepLib.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -235,11 +249,11 @@
     <Content Include="Views\Question\Ask.cshtml" />
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
-    <Content Include="Views\Question\AnswerIndex.cshtml" />
+    <Content Include="Views\Comment\CommentIndex.cshtml" />
+    <Content Include="Views\Answer\AnswerIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Answer\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -91,6 +91,14 @@
     <Compile Include="Migrations\201503192112574_ProfileUpdates.Designer.cs">
       <DependentUpon>201503192112574_ProfileUpdates.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503200413208_Comments.cs" />
+    <Compile Include="Migrations\201503200413208_Comments.Designer.cs">
+      <DependentUpon>201503200413208_Comments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201503210400534_Comment2.cs" />
+    <Compile Include="Migrations\201503210400534_Comment2.Designer.cs">
+      <DependentUpon>201503210400534_Comment2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="StackOverflowContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -136,6 +144,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201503192112574_ProfileUpdates.resx">
       <DependentUpon>201503192112574_ProfileUpdates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503200413208_Comments.resx">
+      <DependentUpon>201503200413208_Comments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503210400534_Comment2.resx">
+      <DependentUpon>201503210400534_Comment2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

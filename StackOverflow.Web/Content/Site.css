@@ -75,3 +75,7 @@ span.glyphicon-ok-sign {
 .badge-inverse:hover {
   background-color: #1a1a1a;
 }
+
+.hidden-item {
+    display: none;
+}
