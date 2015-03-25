@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace StackOverflow.Web.Controllers
 {
@@ -135,7 +136,8 @@ namespace StackOverflow.Web.Controllers
         {
 
             string stringValue = (string)value;
-            if (stringValue.Length < _min)
+            string[] words = stringValue.Split(' ');
+            if (words.Count() < _min || (words.Last() == "" && words.Count()==_min))
                 return new ValidationResult("Must Contain more than " + _min+" words");
             return ValidationResult.Success;
         }

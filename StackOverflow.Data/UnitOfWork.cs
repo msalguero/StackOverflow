@@ -9,6 +9,7 @@ namespace StackOverflow.Data
         private GenericRepository<Question> _questionRepository;
         private GenericRepository<Answer> _answerRepository;
         private GenericRepository<Comment> _commentRepository;
+        private GenericRepository<Vote> _voteRepository;
 
         public UnitOfWork()
         {
@@ -43,6 +44,11 @@ namespace StackOverflow.Data
         public GenericRepository<Comment> CommentRepository
         {
             get { return _commentRepository ?? (_commentRepository = new GenericRepository<Comment>(_context)); }
+        }
+
+        public GenericRepository<Vote> VoteRepository
+        {
+            get { return _voteRepository ?? (_voteRepository = new GenericRepository<Vote>(_context)); }
         }
     }
 }

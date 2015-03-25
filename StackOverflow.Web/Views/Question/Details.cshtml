@@ -1,57 +1,57 @@
 ﻿@using StackOverflow.Web.Models
 @model StackOverflow.Web.Models.QuestionDetailsModel
-
-@{
+    @{
     ViewBag.Title = "Details";
     ViewBag.CurrentQuestionId = Model.Id;
     TempData["id"] = Model.Id;
     TempData["QuestionOwnerId"] = Model.OwnerId;
     TempData["IsAnswered"] = Model.IsAnswered;
-}
+    }
 
-<h2>Details</h2>
-@ViewBag.Error
+    <h2>Details</h2>
+    @ViewBag.Error
 
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
 
-<div class="page-header">
-    <h1><small>@Html.DisplayFor(model => model.Title)</small>
-    </h1>
-</div>
+    <div class="page-header">
+        <h1>
+            <small>@Html.DisplayFor(model => model.Title)</small>
+        </h1>
+    </div>
 
-<div class="row">
-    <div class="col-md-1">
-        @using (Html.BeginForm("VoteQuestionUp", "Question", Model))
+    <div class="row">
+        <div class="col-md-1">
+            @using (Html.BeginForm("VoteQuestionUp", "Question", Model, FormMethod.Post))
         {
-            <button type="submit" class="btn btn-default btn-lg row" name="1">
-                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-            </button>
+                <button type="submit" class="btn btn-default btn-lg row" name="1">
+                    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                </button>
         }
-        <div class="row">
-            <h2>@Html.DisplayFor(model => model.Votes)</h2>
+            <div class="row">
+                <h2>@Html.DisplayFor(model => model.Votes)</h2>
+            </div>
+            @using (Html.BeginForm("VoteQuestionDown", "Question", Model))
+        {
+                <button type="submit" class="btn btn-default btn-lg row" name="-1">
+                    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                </button>
+        }
         </div>
-        @using (Html.BeginForm("VoteQuestionDown", "Question", Model))
-        {
-            <button type="submit" class="btn btn-default btn-lg row" name="-1">
-                <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
-            </button>
-        }
+        <div class="col-md-6">@Html.Raw(Model.Description)</div>
+        <div class="well col-md-1">
+            <div class="row">@Html.ActionLink(Model.OwnerName, "Profile", "Account", new {id = Model.OwnerId}, null)</div>
+            <div class="row">@Html.DisplayFor(model => model.CreationDate)</div>
+            <div class="row">Views: @Html.DisplayFor(model => model.Views)</div>
+        </div>
     </div>
-    <div class="col-md-6">@Html.Raw(Model.Description)</div>
-    <div class="well col-md-1">
-        <div class="row">@Html.ActionLink(Model.OwnerName, "Profile", "Account", new {id = Model.OwnerId}, null)</div>
-        <div class="row">@Html.DisplayFor(model => model.CreationDate)</div>
-        <div class="row">Views: @Html.DisplayFor(model => model.Views)</div>
+
+    <div class="row">
+        @{ Html.RenderAction("CommentIndex", "Comment", new { models = Model.Comments, entity = "Question"});}
     </div>
-</div>
 
-<div class="row">
-    @{ Html.RenderAction("CommentIndex", "Comment", new { models = Model.Comments, entity = "Question"});}
-</div>
-
-<div class="row">
-    @{ Html.RenderAction("AnswerIndex", "Answer", new {models = Model.Answers});}
-</div>
+    <div class="row">
+        @{ Html.RenderAction("AnswerIndex", "Answer", new {models = Model.Answers});}
+    </div>

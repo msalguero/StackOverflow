@@ -60,8 +60,12 @@ namespace StackOverflow.Web.Controllers
 
         public ActionResult Login()
         {
-            if (TempData["Attempts"] == null)
-                TempData["Attempts"] = 0;
+            if (HttpContext.Session != null && HttpContext.Session["Attempts"] == null)
+            {
+                HttpContext.Session["Attempts"] = 0;
+                HttpContext.Session["CaptchaActive"] = false;
+            }
+                
             @ViewBag.Captcha = false;
             
                 
@@ -73,10 +77,11 @@ namespace StackOverflow.Web.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Login(AccountLoginModel model, bool captchaValid)
         {
-          
-            if (!captchaValid )
+            @ViewBag.Captcha = false;
+            if (!captchaValid && (bool)HttpContext.Session["CaptchaActive"])
             {
                 ModelState.AddModelError("_FORM", "You did not type the verification word correctly. Please try again.");
+                HttpContext.Session["CaptchaActive"] = false;
             }
             if (ModelState.IsValid)
             {
@@ -95,12 +100,17 @@ namespace StackOverflow.Web.Controllers
                         return RedirectToAction("Index", "Question");
                     }
                     _email.SendEmail(account.Email, "There was a failed attempt to enter your account.");
-                    TempData["Attempts"] = (int)TempData["Attempts"] + 1;
-                    if ((int) TempData["Attempts"] > 3)
+                    if (HttpContext.Session != null)
                     {
-                        @ViewBag.Captcha = true;
-                        TempData["Attempts"] = 0;
+                        HttpContext.Session["Attempts"] = (int)HttpContext.Session["Attempts"] + 1;
+                        if ((int)HttpContext.Session["Attempts"] > 2)
+                        {
+                            @ViewBag.Captcha = true;
+                            HttpContext.Session["Attempts"] = 0;
+                            HttpContext.Session["CaptchaActive"] = true;
+                        }
                     }
+                    
                 }
             }
             ViewBag.Message = "Email or Password invalid";

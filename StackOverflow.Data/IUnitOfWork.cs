@@ -16,5 +16,7 @@ namespace StackOverflow.Data
         GenericRepository<Answer> AnswerRepository { get; }
 
         GenericRepository<Comment> CommentRepository { get; }
+
+        GenericRepository<Vote> VoteRepository { get; } 
     }
 }

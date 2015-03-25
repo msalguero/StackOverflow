@@ -15,7 +15,8 @@ namespace StackOverflow.Web.Models
         public Guid Id { get; set; }
 
         public ICollection<AnswerModel> Answers { get; set; }
-        public ICollection<CommentListModel> Comments { get; set; } 
+        public ICollection<CommentListModel> Comments { get; set; }
+        public ICollection<Vote> Voters { get; set; }
         public bool IsAnswered { get; set; }
         public int Views { get; set; }
     }

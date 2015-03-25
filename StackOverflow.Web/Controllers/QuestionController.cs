@@ -48,10 +48,13 @@ namespace StackOverflow.Web.Controllers
             if (question == null)
                 return RedirectToAction("Index");
             question.Answers = question.Answers.OrderByDescending(c => c.Correct).ToList();
-            if(!question.IsAnswered)
+            if (!question.IsAnswered)
+            {
                 question.Answers = question.Answers.OrderByDescending(c => c.Votes).ToList();
-            if(question.Answers.Count>0 && question.Answers.ElementAt(0).Votes == 0)
-                question.Answers = question.Answers.OrderByDescending(c => c.CreationDate).ToList();
+                if (question.Answers.Count > 0 && question.Answers.ElementAt(0).Votes == 0)
+                    question.Answers = question.Answers.OrderByDescending(c => c.CreationDate).ToList();
+            }
+                
             QuestionDetailsModel questionModel = Mapper.Map<Question,QuestionDetailsModel>(question);
 
             question.Views += 1;
@@ -103,6 +106,7 @@ namespace StackOverflow.Web.Controllers
             return RedirectToAction("Details", new{id = question.Id});
             //return RedirectToAction("Details", new {id = model.QuestionId});
         }
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult VoteQuestionUp(QuestionDetailsModel item)
         {
@@ -110,12 +114,14 @@ namespace StackOverflow.Web.Controllers
             return RedirectToAction("VoteQuestion", item);
         }
 
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult VoteQuestionDown(QuestionDetailsModel item)
         {
             item.Votes += -1;
             return RedirectToAction("VoteQuestion", item);
         }
+        [ValidateInput(false)]
         public ActionResult VoteQuestion(QuestionDetailsModel item)
         {
             Question question = Mapper.Map<QuestionDetailsModel, Question>(item);
@@ -127,38 +133,9 @@ namespace StackOverflow.Web.Controllers
             Guid idQuestion = Guid.Parse(TempData["id"].ToString());
             return RedirectToAction("Details", new { id = idQuestion });
         }
-        [HttpPost]
-        public ActionResult VoteAnswerUp(AnswerModel item)
-        {
-            item.Votes += 1;
-            return RedirectToAction("VoteAnswer", item);
-        }
+        
 
-        [HttpPost]
-        public ActionResult VoteAnswerDown(AnswerModel item)
-        {
-            item.Votes += -1;
-            return RedirectToAction("VoteAnswer", item);
-        }
-
-        public ActionResult VoteAnswer(AnswerModel itemModel)
-        {
-            Answer answer = Mapper.Map<AnswerModel, Answer>(itemModel);
-           
-            var question = _unitOfWork.QuestionRepository.GetById(itemModel.QuestionId);
-            var account = _unitOfWork.AccountRepository.GetById(itemModel.OwnerId);
-            answer.Question = question;
-            answer.Owner = account;
-            
-            Guid voterId = Guid.Parse(HttpContext.User.Identity.Name);
-            
-            _unitOfWork.AnswerRepository.Update(answer);
-            _unitOfWork.Commit();
-
-            Guid idQuestion = Guid.Parse(TempData["id"].ToString());
-            return RedirectToAction("Details", new { id = idQuestion });
-        }
-
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult SelectCorrectAnswer(AnswerModel itemModel)
         {
@@ -176,6 +153,7 @@ namespace StackOverflow.Web.Controllers
             return RedirectToAction("Details", new { id = idQuestion });
         }
 
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult RemoveCorrectAnswer(AnswerModel itemModel)
         {

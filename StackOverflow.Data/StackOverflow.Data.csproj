@@ -99,6 +99,10 @@
     <Compile Include="Migrations\201503210400534_Comment2.Designer.cs">
       <DependentUpon>201503210400534_Comment2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503211937482_VotesVerification.cs" />
+    <Compile Include="Migrations\201503211937482_VotesVerification.Designer.cs">
+      <DependentUpon>201503211937482_VotesVerification.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="StackOverflowContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -150,6 +154,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201503210400534_Comment2.resx">
       <DependentUpon>201503210400534_Comment2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503211937482_VotesVerification.resx">
+      <DependentUpon>201503211937482_VotesVerification.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

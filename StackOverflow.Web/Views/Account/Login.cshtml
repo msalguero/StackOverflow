@@ -41,14 +41,12 @@
                 @Html.ActionLink("Need an Account", "Register")
                 
             </div>
-        </div>
-
-        <div class="col-md-offset-2 " id="captcha">
-            @Html.Raw(Html.GenerateCaptcha())
-        </div>
+        </div>  
 
         <div class="@(ViewBag.Captcha ? "visible-item" : "hidden-item")">
-            
+            <div class="col-md-offset-2 " id="captcha">
+                @Html.Raw(Html.GenerateCaptcha())
+            </div>
         </div>
         
 
