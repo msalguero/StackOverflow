@@ -10,9 +10,11 @@
     @Html.ActionLink("Ask a question", "Ask")
 </p>
 
-<ul class="nav nav-tabs col-md-offset-7">
-    <li role="presentation" class="active"><a href="#">Date</a></li>
-    <li role="presentation"><a href="#">Votes</a></li>
+<ul class="nav nav-tabs col-md-offset-6" >
+    <li role="presentation" class="@(ViewBag.active == "Date" ? "active" : "")">@Html.ActionLink("Date", "Index")</li>
+    <li role="presentation" class="@(ViewBag.active == "Answer" ? "active" : "")">@Html.ActionLink("Answers", "Index", new { ordering = "Answers" })</li>
+    <li role="presentation" class="@(ViewBag.active == "Vote" ? "active" : "")">@Html.ActionLink("Votes", "Index", new { ordering = "Votes" })</li>
+    <li role="presentation" class="@(ViewBag.active == "View" ? "active" : "")">@Html.ActionLink("Views", "Index", new { ordering = "Views" })</li>
 </ul>
 <ul class="list-group row">
     @foreach (var item in Model)

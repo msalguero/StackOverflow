@@ -29,10 +29,26 @@ namespace StackOverflow.Web.Controllers
         }
         // GET: Question
         [AllowAnonymous]
-        public ActionResult Index()
+        public ActionResult Index(string ordering)
         {
             List<QuestionListModel> models = new List<QuestionListModel>();
             var questions = _unitOfWork.QuestionRepository.GetList().OrderByDescending(x=> x.CreationDate).ToList().Take(25);
+            @ViewBag.active = "Date";
+            switch (ordering)
+            {
+                case "Votes":
+                    questions = questions.OrderByDescending(x => x.Votes);
+                    @ViewBag.active = "Vote";
+                    break;
+                case "Views":
+                    questions = questions.OrderByDescending(x => x.Views);
+                    @ViewBag.active = "View";
+                    break;
+                case "Answers":
+                    questions = questions.OrderByDescending(x => x.Answers.Count);
+                    @ViewBag.active = "Answer";
+                    break;
+            }
             foreach (var item in questions)
             {
 
@@ -104,7 +120,6 @@ namespace StackOverflow.Web.Controllers
             _unitOfWork.AnswerRepository.Add(answer);
             _unitOfWork.Commit();
             return RedirectToAction("Details", new{id = question.Id});
-            //return RedirectToAction("Details", new {id = model.QuestionId});
         }
         [ValidateInput(false)]
         [HttpPost]
