@@ -29,24 +29,29 @@ namespace StackOverflow.Web.Controllers
         }
         // GET: Question
         [AllowAnonymous]
-        public ActionResult Index(string ordering)
+        public ActionResult Index(string ordering, int? page)
         {
-            List<QuestionListModel> models = new List<QuestionListModel>();
-            var questions = _unitOfWork.QuestionRepository.GetList().OrderByDescending(x=> x.CreationDate).ToList().Take(25);
+            int pageNumber = (page ?? 0)*25;
+            @ViewBag.Page = (page ?? 0);
             @ViewBag.active = "Date";
+            @ViewBag.PreviousEnabled = true;
+            @ViewBag.NextEnabled = true;
+            List<QuestionListModel> models = new List<QuestionListModel>();
+            var questions = _unitOfWork.QuestionRepository.GetList().OrderByDescending(x=> x.CreationDate).ToList();
+            
             switch (ordering)
             {
                 case "Votes":
-                    questions = questions.OrderByDescending(x => x.Votes);
-                    @ViewBag.active = "Vote";
+                    questions = questions.OrderByDescending(x => x.Votes).ToList();
+                    @ViewBag.active = "Votes";
                     break;
                 case "Views":
-                    questions = questions.OrderByDescending(x => x.Views);
-                    @ViewBag.active = "View";
+                    questions = questions.OrderByDescending(x => x.Views).ToList();
+                    @ViewBag.active = "Views";
                     break;
                 case "Answers":
-                    questions = questions.OrderByDescending(x => x.Answers.Count);
-                    @ViewBag.active = "Answer";
+                    questions = questions.OrderByDescending(x => x.Answers.Count).ToList();
+                    @ViewBag.active = "Answers";
                     break;
             }
             foreach (var item in questions)
@@ -55,7 +60,13 @@ namespace StackOverflow.Web.Controllers
                 var model = Mapper.Map<Question, QuestionListModel>(item);
                 models.Add(model);
             }
-            return View(models);
+            if (models.Count <= pageNumber+25)
+                @ViewBag.NextEnabled = false;
+            if (pageNumber == 0)
+                @ViewBag.PreviousEnabled = false;
+            if (pageNumber + 25 > models.Count)
+                return View(models.GetRange(pageNumber, models.Count - pageNumber));
+            return View(models.GetRange(pageNumber,25));
         }
         [AllowAnonymous]
         public ActionResult Details(Guid id)
@@ -98,11 +109,18 @@ namespace StackOverflow.Web.Controllers
         public ActionResult CreateAnswer(string description)
         {
             Guid idQuestion = Guid.Parse(TempData["id"].ToString());
-            //if (description.Length < 50)
-            //{
-            //    @ViewBag.Error = "Answer must be more than 50 characters";
-            //    return RedirectToAction("Details", new { id = idQuestion });
-            //}            
+            if (description.Length < 50)
+            {
+                TempData["Error"] = "Answer must be more than 50 characters";
+                return RedirectToAction("Details", new { id = idQuestion });
+            }
+            string[] words = description.Split(' ');
+            if (words.Count() < 5 || (words.Last() == "" && words.Count() == 5))
+            {
+                TempData["Error"] = "Answer must have at least 5 words";
+                return RedirectToAction("Details", new { id = idQuestion });
+                
+            }
             var question = _unitOfWork.QuestionRepository.GetById(idQuestion);
             HttpCookie authCookie = Request.Cookies[FormsAuthentication.FormsCookieName];         
             FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(authCookie.Value);
@@ -139,12 +157,22 @@ namespace StackOverflow.Web.Controllers
         [ValidateInput(false)]
         public ActionResult VoteQuestion(QuestionDetailsModel item)
         {
+            Guid voterId = Guid.Parse(HttpContext.User.Identity.Name);
+            var votes = _unitOfWork.VoteRepository.GetList();
+            var voter = votes.FirstOrDefault(x => x.Voter.Id == voterId && x.Question != null &&  x.Question.Id == item.Id);
+            if (voter != null)
+                return RedirectToAction("Details", "Question", new { id = item.Id });
             Question question = Mapper.Map<QuestionDetailsModel, Question>(item);
             var account = _unitOfWork.AccountRepository.GetById(item.OwnerId);
             question.Owner = account;
             question.ModificationDate = DateTime.Now;
             _unitOfWork.QuestionRepository.Update(question);
             _unitOfWork.Commit();
+
+            var voterAccount = _unitOfWork.AccountRepository.GetById(voterId);
+            _unitOfWork.VoteRepository.Add(new Vote() { Question = question, Voter = voterAccount });
+            _unitOfWork.Commit();
+
             Guid idQuestion = Guid.Parse(TempData["id"].ToString());
             return RedirectToAction("Details", new { id = idQuestion });
         }

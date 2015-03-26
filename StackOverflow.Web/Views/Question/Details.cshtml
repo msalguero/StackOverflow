@@ -6,6 +6,7 @@
     TempData["id"] = Model.Id;
     TempData["QuestionOwnerId"] = Model.OwnerId;
     TempData["IsAnswered"] = Model.IsAnswered;
+    bool voted = null == Model.Voters.FirstOrDefault(x => x.Voter.Id.ToString() == Context.User.Identity.Name);
     }
 
     <h2>Details</h2>
@@ -25,20 +26,20 @@
     <div class="row">
         <div class="col-md-1">
             @using (Html.BeginForm("VoteQuestionUp", "Question", Model, FormMethod.Post))
-        {
-                <button type="submit" class="btn btn-default btn-lg row" name="1">
+            {
+                <button type="submit" class="btn btn-default btn-lg row @(voted ? "enabled" : "disabled")" name="1">
                     <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
                 </button>
-        }
+            }
             <div class="row">
                 <h2>@Html.DisplayFor(model => model.Votes)</h2>
             </div>
             @using (Html.BeginForm("VoteQuestionDown", "Question", Model))
-        {
-                <button type="submit" class="btn btn-default btn-lg row" name="-1">
+            {
+                <button type="submit" class="btn btn-default btn-lg row @(voted ? "enabled" : "disabled")" name="-1">
                     <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
                 </button>
-        }
+            }
         </div>
         <div class="col-md-6">@Html.Raw(Model.Description)</div>
         <div class="well col-md-1">
@@ -53,5 +54,5 @@
     </div>
 
     <div class="row">
-        @{ Html.RenderAction("AnswerIndex", "Answer", new {models = Model.Answers});}
+        @{ Html.RenderAction("AnswerIndex", "Answer", new { models = Model.Answers, error = TempData["Error"] });}
     </div>

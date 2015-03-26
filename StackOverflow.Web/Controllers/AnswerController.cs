@@ -19,8 +19,9 @@ namespace StackOverflow.Web.Controllers
             _unitOfWork = new UnitOfWork();
         }
         // GET: Answer
-        public ActionResult AnswerIndex(IEnumerable<AnswerModel> models)
+        public ActionResult AnswerIndex(IEnumerable<AnswerModel> models, string error)
         {
+            @ViewBag.Error = error;
             var md = new MarkdownDeep.Markdown();
             md.ExtraMode = true;
             md.SafeMode = false;
@@ -51,7 +52,8 @@ namespace StackOverflow.Web.Controllers
         {
             Guid voterId = Guid.Parse(HttpContext.User.Identity.Name);
             Answer answer = Mapper.Map<AnswerModel, Answer>(itemModel);
-            var voter = answer.Voters.FirstOrDefault(x => x.Voter.Id == voterId);
+            var votes = _unitOfWork.VoteRepository.GetList();
+            var voter = votes.FirstOrDefault(x => x.Voter.Id == voterId && x.Answer!=null && x.Answer.Id == answer.Id);
             if (voter != null)
                 return RedirectToAction("Details","Question", new { id = itemModel.QuestionId });
             var question = _unitOfWork.QuestionRepository.GetById(itemModel.QuestionId);

@@ -12,14 +12,14 @@
 
 <ul class="nav nav-tabs col-md-offset-6" >
     <li role="presentation" class="@(ViewBag.active == "Date" ? "active" : "")">@Html.ActionLink("Date", "Index")</li>
-    <li role="presentation" class="@(ViewBag.active == "Answer" ? "active" : "")">@Html.ActionLink("Answers", "Index", new { ordering = "Answers" })</li>
-    <li role="presentation" class="@(ViewBag.active == "Vote" ? "active" : "")">@Html.ActionLink("Votes", "Index", new { ordering = "Votes" })</li>
-    <li role="presentation" class="@(ViewBag.active == "View" ? "active" : "")">@Html.ActionLink("Views", "Index", new { ordering = "Views" })</li>
+    <li role="presentation" class="@(ViewBag.active == "Answers" ? "active" : "")">@Html.ActionLink("Answers", "Index", new { ordering = "Answers" })</li>
+    <li role="presentation" class="@(ViewBag.active == "Votes" ? "active" : "")">@Html.ActionLink("Votes", "Index", new { ordering = "Votes" })</li>
+    <li role="presentation" class="@(ViewBag.active == "Views" ? "active" : "")">@Html.ActionLink("Views", "Index", new { ordering = "Views" })</li>
 </ul>
 <ul class="list-group row">
     @foreach (var item in Model)
     {
-        <li class="list-group-item col-md-9 ">
+        <li class="list-group-item col-md-10 ">
             <span class="badge badge-info">Answers: @Html.DisplayFor(modelItem => item.AnswersCount)</span>
             <span class="badge badge-warning">Votes: @Html.DisplayFor(modelItem => item.Votes)</span>
             <span class="badge badge-danger">Views: @Html.DisplayFor(modelItem => item.Views)</span>
@@ -36,7 +36,7 @@
 </ul>
 <nav class ="row">
     <ul class="pager">
-        <li><a href="#">Previous</a></li>
-        <li><a href="#">Next</a></li>
+        <li class="@(ViewBag.PreviousEnabled ? "enabled" : "disabled")">@Html.ActionLink("Previous", "Index", new { ordering = ViewBag.active, page = ViewBag.Page - 1 })</li>
+        <li class="@(ViewBag.NextEnabled ? "enabled" : "disabled")">@Html.ActionLink("Next", "Index", new { ordering = ViewBag.active, page = ViewBag.Page + 1 })</li>
     </ul>
 </nav>
