@@ -1,0 +1,18 @@
+﻿<Page
+    x:Class="StackOverflow.Phone.QuestionDetail"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:StackOverflow.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <TextBlock x:Name="Title" HorizontalAlignment="Left" Margin="26,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="75" Width="333" FontSize="24"/>
+        <TextBlock x:Name="Description" HorizontalAlignment="Left" Margin="79,174,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="114" Width="223"/>
+        <ListView x:Name="AnswerList" HorizontalAlignment="Left" Height="191" Margin="54,318,0,0" VerticalAlignment="Top" Width="283"/>
+        <TextBlock x:Name="Owner" HorizontalAlignment="Left" Margin="26,85,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" RenderTransformOrigin="0.476,1.747" />
+
+    </Grid>
+</Page>

@@ -31,6 +31,8 @@ namespace StackOverflow.Web.Controllers
         [AllowAnonymous]
         public ActionResult Index(string ordering, int? page)
         {
+            
+            
             int pageNumber = (page ?? 0)*25;
             @ViewBag.Page = (page ?? 0);
             @ViewBag.active = "Date";

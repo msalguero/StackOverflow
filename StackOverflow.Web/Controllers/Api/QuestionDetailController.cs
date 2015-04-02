@@ -21,7 +21,11 @@ namespace StackOverflow.Web.Controllers.Api
         public QuestionDetailsModel Get(Guid id)
         {
             Question question = _unitOfWork.QuestionRepository.GetById(id);
-            
+            question.Voters.Clear();
+            foreach (var answer in question.Answers)
+            {
+                answer.Voters.Clear();
+            }
             return AutoMapper.Mapper.Map<Question,QuestionDetailsModel>(question);
         }
 
